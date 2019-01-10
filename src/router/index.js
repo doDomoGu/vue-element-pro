@@ -6,11 +6,11 @@ Vue.use(Router)
 
 //通用路由
 export const constantRouterMap = [
-  // {
-  //   path: '/login',
-  //   component: () => import('@/views/login/index'),
-  //   hidden: true,
-  // },
+  {
+    path: '/login',
+    component: () => import('@/views/Login'),
+    hidden: true,
+  },
   {
     path: '/404',
     component: () => import(/* webpackChunkName: "page404" */ '@/views/exception/404'),
