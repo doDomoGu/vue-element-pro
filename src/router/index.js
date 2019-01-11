@@ -24,7 +24,7 @@ export const constantRouterMap = [
       {
         path: 'home',
         component: () => import(/* webpackChunkName: "home" */ '@/views/Home'),
-        name: 'Home',
+        name: 'home',
         meta: { title: 'home', icon: 'dashboard', noCache: true },
       },
     ],

@@ -18,7 +18,8 @@
                     v-model="loginForm.password"
                     @keyup.enter.native="submitForm('loginForm')"></el-input>
         </el-form-item>
-        <el-button type="primary" class="submit-btn"
+        <el-button type="primary"
+                   class="submit-btn"
                    @click="submitForm('loginForm')">登录</el-button>
       </el-form>
     </el-main>
@@ -29,46 +30,51 @@
 </template>
 <script>
 export default {
-  data: function () {
+  data: function() {
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: "",
+        password: ""
       },
       rules: {
         username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' }
+          { required: true, message: "请输入用户名", trigger: "blur" }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' }
+          { required: true, message: "请输入密码", trigger: "blur" }
         ]
       }
-    }
+    };
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$store.dispatch('auth/Login', [this.loginForm.username, this.loginForm.password]).then(res => {
-            if (res.code === 0) {
-              this.$router.push({ name: 'home' });
-            } else {
-              this.$alert(res.msg, '消息提示', {
-                confirmButtonText: '确定',
-                type: 'error',
-                showClose: false,
-                callback: action => { }
-              });
-            }
-          })
+          this.$store
+            .dispatch("auth/Login", [
+              this.loginForm.username,
+              this.loginForm.password
+            ])
+            .then( () => {
+              if( this.$store.getters["auth/loginState"]){
+                this.$router.push({ name: "home" });
+              } else {
+                this.$alert(this.$store.getters["auth/loginErrorMsg"], "消息提示", {
+                  confirmButtonText: "确定",
+                  type: "error",
+                  showClose: false,
+                  callback: () => {}
+                });
+              }
+            });
         } else {
-          console.log('error submit!!');
+          console.log("error submit!!");
           return false;
         }
       });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -77,7 +83,8 @@ export default {
   min-height: 100%;
   width: 100%;
   overflow: hidden;
-  & > .el-header {
+
+  .el-header {
     position: absolute;
     top: 50%;
     left: 0;
@@ -88,16 +95,20 @@ export default {
     color: #fff;
   }
 
-  & > .el-main {
+  .el-main {
     position: absolute;
     left: 50%;
     top: 50%;
     width: 300px;
     height: 300px;
     margin: -150px 0 0 -150px;
+
+    .submit-btn {
+      width: 100%;
+    }
   }
 
-  & > .el-footer {
+  .el-footer {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -108,10 +119,5 @@ export default {
     color: rgb(190, 190, 190);
     font-size: 14px;
   }
-}
-
-.submit-btn {
-  width: 100%;
-  height: 36px;
 }
 </style>
