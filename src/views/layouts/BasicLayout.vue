@@ -6,6 +6,7 @@
     <el-container>
       <el-header>
         This is Header
+        <el-button @click="logout">退出</el-button>
       </el-header>
       <router-view/>
       <el-footer>
@@ -19,7 +20,18 @@
 import Sidebar from './sidebar/Index'
 
 export default {
+  name: 'BasicLayout',
   components: { Sidebar },
+  methods:{
+    logout(){
+      this.$store.dispatch('auth/Logout').then(()=>{
+        if(!this.$store.getters['auth/loginState']){
+          this.$router.push({name:'login'})
+        }
+      })
+    }
+  }
+
 }
 </script>
 
