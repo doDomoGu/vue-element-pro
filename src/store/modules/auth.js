@@ -1,5 +1,5 @@
-import { login, logout } from '@/api/auth'
-import { getToken, setToken, removeToken } from '@/utils/authToken'
+import { login, logout, checkToken } from '@/api/auth'
+import { /* getToken, */ setToken, removeToken } from '@/utils/authToken'
 
 const state = {
   loginState: false,
@@ -15,7 +15,8 @@ const actions = {
           if ( res.data ){
             const data = res.data
             if ( data.code === 0) {
-              setToken(data.data.token)
+              const _data = data.data
+              setToken(_data.token)
               commit('setLoginState')
               commit('removeLoginErrorMsg')
             } else {
@@ -33,35 +34,30 @@ const actions = {
         })
     })
   },
-  /* Check ({ commit }, token) {
+  CheckToken ({ commit }, token) {
     return new Promise((resolve, reject) => {
-      axios.get(
-        '/auth/check',
-        {
-          params: {
-            token: token
-          }
-        }
-      )
+      checkToken(token)
         .then((res) => {
-          if (res.data && res.data.code === 0) {
-            let _data = res.data.data
-
-            commit('setToken', { token: token })
-            commit('setLoginState')
-            commit('setUserId', parseInt(_data.user_info.id))
-            commit('setUserInfo', _data.user_info )
-          } else {
-          // 提交的token 错误
-            commit('clearLoginState')
+          if ( res.data ){
+            const data = res.data
+            if ( data.code === 0) {
+              setToken(token)
+              commit('setLoginState')
+            } else {
+            // 提交的token 错误
+              removeToken()
+              commit('removeLoginState')
+            }
+            resolve()
+          }else{
+            reject()
           }
-          resolve()
         })
         .catch(error => {
           reject(error)
         })
     })
-  }, */
+  },
   Logout ({ commit }) {
     return new Promise((resolve, reject) => {
       logout().then((res) => {

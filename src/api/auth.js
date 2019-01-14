@@ -11,6 +11,16 @@ export function login(username, password) {
   )
 }
 
+export function checkToken(token) {
+  const data = {
+    token
+  }
+  return axios.post(
+    '/auth/check-token',
+    data
+  )
+}
+
 export function logout() {
   return axios.delete(
     '/auth/logout'

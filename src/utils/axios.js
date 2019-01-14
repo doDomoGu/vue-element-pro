@@ -20,7 +20,7 @@ axios.interceptors.request.use(
     return config
   },
   error => {
-    console.log('错误的传参')
+    // console.log('错误的传参')
     return Promise.reject(error)
   },
 )

@@ -13,5 +13,6 @@ export default {
 <style scoped>
 #app {
   height: 100%;
+  background: #eeeeee;
 }
 </style>
