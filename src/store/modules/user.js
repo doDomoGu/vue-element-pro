@@ -36,20 +36,6 @@ const getters = {
 }
 
 const mutations = {
-  // setToken: (state, data) => {
-  //   state.token = data.token
-  //   if (data.forceUpdate) {
-  //     window.localStorage.setItem('__CHUDIAN_AUTH_TOKEN__',data.token);
-  //     window.localStorage.setItem('__CHUDIAN_AUTH_TOKEN_EXPIRED__', new Date(data.expired).getTime());
-  //   }
-  // },
-  
-  // setUserId: (state, id) => {
-  //   state.user_id = id
-  // },
-  // setUserInfo: (state, info) => {
-  //   state.user_info = info
-  // },
   setInfo: (state, data) => {
     state.id = data.id
     state.name = data.name

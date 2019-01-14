@@ -10,11 +10,8 @@ Vue.use(Element)
 
 /* LocalStorage */
 import Storage from 'vue-ls';
-Vue.use(Storage, {
-    namespace: 'vuejs__', // key prefix
-    name: 'ls', // name variable Vue.[ls] or this.[$ls],
-    storage: 'local', // storage name session, local, memory
-});
+import { STORAGE_OPTIONS } from '@/config/constantVariables'
+Vue.use(Storage, STORAGE_OPTIONS);
 
 Vue.config.productionTip = false
 
