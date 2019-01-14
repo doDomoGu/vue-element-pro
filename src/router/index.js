@@ -4,8 +4,8 @@ import routerMap from './routerMap'
 
 import store from '@/store'
 // import { Message } from 'element-ui'
-// import NProgress from 'nprogress' // progress bar
-// import 'nprogress/nprogress.css'// progress bar style
+import NProgress from 'nprogress' // progress bar
+import 'nprogress/nprogress.css'// progress bar style
 import { getToken } from '@/utils/authToken' // getToken from cookie
 import { ADMIN_ROLE } from '@/config/constantVariables'
 
@@ -18,9 +18,7 @@ const router = new Router({
   routes: routerMap
 })
 
-// NProgress.configure({ showSpinner: false })// NProgress Configuration
-
-
+NProgress.configure({ showSpinner: false })// NProgress Configuration
 
 const whiteList = ['login', 'auth-redirect']// 免登陆白名单
 
@@ -67,8 +65,8 @@ const authFalse = function (to, from, next) {
 }
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
+  NProgress.start() // start progress bar
   // 读取登录状态
-  
   if (store.getters['auth/loginState']) {
     //已登录
     authTrue(to, from, next)
@@ -151,7 +149,7 @@ router.beforeEach((to, from, next) => {
 // })
 
 router.afterEach(() => {
-  // NProgress.done() // finish progress bar
+  NProgress.done() // finish progress bar
 })
 
 export default router
