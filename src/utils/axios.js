@@ -1,6 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 import { getToken } from '@/utils/authToken'
+import { AUTH_TOKEN_KEY } from '@/config/constantVariables'
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.baseURL = process.env.VUE_APP_API_PREFIX
@@ -10,7 +11,7 @@ axios.interceptors.request.use(
     //鉴权 Token传参
     const token = getToken()
     if (token != null) {
-      config.headers['X-Token'] = token
+      config.headers[AUTH_TOKEN_KEY] = token
     }
 
     // POST传参序列化

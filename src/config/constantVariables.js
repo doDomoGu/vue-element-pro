@@ -8,4 +8,4 @@ export const STORAGE_OPTIONS = {
   name: 'ls', // 属性调用别名 Vue.[ls] or this.[$ls],
   storage: 'local' // 存储模式 (session, local, memory)
 }
-export const AUTH_TOKEN_KEY = "VEP-TOKEN"  //Key
+export const AUTH_TOKEN_KEY = "X-TOKEN"  //token-Key 用于api调用 鉴权

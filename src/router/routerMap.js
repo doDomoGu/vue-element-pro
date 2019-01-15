@@ -2,38 +2,21 @@ import { /* ADMIN_ROLE, */ USER_ROLE } from '@/config/constantVariables'
 
 import BasicLayout from '@/views/layouts/BasicLayout'
 
+/*
+ * 路由表
+ * path : 路径
+ * component: 视图组件
+ * name: 路由别名  (用于跳转调用， next({name: name})、router.push({name:name})、redirect: { name: 'home' } 等  )
+ * redirect: 重定向
+ * meta: 元信息
+ */
 
-//通用路由
 export default [
   {
-    path: '/login',
-    component: () => import(/* webpackChunkName: "routePage" */ '@/views/Login'),
-    name: 'login',
-    hidden: true,
-  },
-  {
-    path: '/404',
-    component: () => import(/* webpackChunkName: "routePage" */ '@/views/exception/404'),
-    name: 'page_404',
-    hidden: true,
-  },
-  {
-    path: '/401',
-    component: () => import(/* webpackChunkName: "routePage" */ '@/views/exception/401'),
-    name: 'page_401',
-    hidden: true,
-  },
-  {
-    path: '',
-    redirect: 'home',
+    path: '/roles',
     component: BasicLayout,
+    meta: { title: '角色', icon: 'picture', noCache: true },
     children: [
-      {
-        path: 'home',
-        component: () => import(/* webpackChunkName: "routePage" */ '@/views/Home'),
-        name: 'home',
-        meta: { title: '主页', icon: 'dashboard', noCache: true },
-      },
       {
         path: 'admin',
         component: () => import(/* webpackChunkName: "routePage" */ '@/views/Admin'),
@@ -48,13 +31,50 @@ export default [
       },
     ],
   },
-  { path: '*', redirect: '/404', hidden: true },
-  // {
-  //   path: '*',
-  //   component: () => import(/* webpackChunkName: "routePage" */ '@/views/exception/404'),
-  //   name: 'page_404',
-  //   hidden: true,
-  // },
+  {
+    path: '',
+    component: BasicLayout,
+    redirect: { name: 'home' },
+    meta: { title: '主页111', icon: 'news', noCache: true },
+    children: [
+      {
+        path: '/',
+        component: () => import(/* webpackChunkName: "routePage" */ '@/views/Home'),
+        name: 'home',
+        meta: { title: '主页', icon: 'dashboard', noCache: true },
+      },
+    ]
+  },
+  {
+    path: '/login',
+    component: () => import(/* webpackChunkName: "routePage" */ '@/views/Login'),
+    name: 'login',
+    hidden: true,
+  },
+  {
+    path: '/404',
+    component: () => import(/* webpackChunkName: "routePage" */ '@/views/exception/404'),
+    name: 'page_404',
+    hidden: true,
+  },
+  {
+    path: '/403',
+    component: () => import(/* webpackChunkName: "routePage" */ '@/views/exception/403'),
+    name: 'page_403',
+    hidden: true,
+  },
+  {
+    path: '/401',
+    component: () => import(/* webpackChunkName: "routePage" */ '@/views/exception/401'),
+    name: 'page_401',
+    hidden: true,
+  },
+  { 
+    path: '*',
+    // redirect: '/404',
+    component: () => import(/* webpackChunkName: "routePage" */ '@/views/exception/404'),
+    hidden: true 
+  }
 ]
 
 

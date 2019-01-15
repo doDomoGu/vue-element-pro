@@ -46,7 +46,7 @@ const authTrue = function (to, from, next) {
          }else{
            next({ name: 'page_403' })
          } */
-         next({ name: 'page_401'})
+         next({ name: 'page_403'})
       }
     }else {
       next()

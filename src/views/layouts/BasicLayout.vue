@@ -16,9 +16,7 @@
   </el-container>
 </template>
 <script>
-// import { mapGetters } from 'vuex'
-import Sidebar from './sidebar/Index'
-
+import Sidebar from '@/components/sidebar/Index'
 export default {
   name: 'BasicLayout',
   components: { Sidebar },
@@ -31,10 +29,8 @@ export default {
       })
     }
   }
-
 }
 </script>
-
 <style scoped>
 .el-container {
   height: 100%;
@@ -47,5 +43,4 @@ export default {
   text-align: center;
   line-height: 60px;
 }
-
 </style>
