@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-aside :width="'200px'">
+    <el-aside>
       <sidebar/>  
     </el-aside>
     <el-container>

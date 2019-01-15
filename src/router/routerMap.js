@@ -21,13 +21,21 @@ export default [
         path: 'admin',
         component: () => import(/* webpackChunkName: "routePage" */ '@/views/Admin'),
         name: 'admin',
-        meta: { title: '管理员', icon: 'dashboard', noCache: true , roles: []},
+        meta: { title: '管理员', icon: 'setting', noCache: true , roles: []},
+        children: [
+          {
+            path: 'admin',
+            component: () => import(/* webpackChunkName: "routePage" */ '@/views/Admin'),
+            name: 'admin',
+            meta: { title: '管理员', icon: 'setting', noCache: true , roles: []},
+          },
+        ]
       },
       {
         path: 'user',
         component: () => import(/* webpackChunkName: "routePage" */ '@/views/User'),
         name: 'user',
-        meta: { title: '普通用户', icon: 'dashboard', noCache: true, roles: [USER_ROLE] },
+        meta: { title: '普通用户', icon: 'setting', noCache: true, roles: [USER_ROLE] },
       },
     ],
   },
@@ -41,7 +49,7 @@ export default [
         path: '/',
         component: () => import(/* webpackChunkName: "routePage" */ '@/views/Home'),
         name: 'home',
-        meta: { title: '主页', icon: 'dashboard', noCache: true },
+        meta: { title: '主页', icon: 'setting', noCache: true },
       },
     ]
   },
