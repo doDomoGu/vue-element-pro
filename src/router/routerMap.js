@@ -8,9 +8,9 @@ import BasicLayout from '@/views/layouts/BasicLayout'
  * component: 视图组件
  * name: 路由别名  (用于跳转调用， next({name: name})、router.push({name:name})、redirect: { name: 'home' } 等  )
  * redirect: 重定向
+ * hidden: 是否在菜单里隐藏
  * meta: 元信息
  */
-
 export default [
   {
     path: '/roles',
@@ -22,14 +22,6 @@ export default [
         component: () => import(/* webpackChunkName: "routePage" */ '@/views/Admin'),
         name: 'admin',
         meta: { title: '管理员', icon: 'setting', noCache: true , roles: []},
-        children: [
-          {
-            path: 'admin',
-            component: () => import(/* webpackChunkName: "routePage" */ '@/views/Admin'),
-            name: 'admin',
-            meta: { title: '管理员', icon: 'setting', noCache: true , roles: []},
-          },
-        ]
       },
       {
         path: 'user',
@@ -57,30 +49,34 @@ export default [
     path: '/login',
     component: () => import(/* webpackChunkName: "routePage" */ '@/views/Login'),
     name: 'login',
+    meta: { title: '登录页面'},
     hidden: true,
   },
   {
     path: '/404',
     component: () => import(/* webpackChunkName: "routePage" */ '@/views/exception/404'),
     name: 'page_404',
+    meta: { title: '404 Not Found'},
     hidden: true,
   },
   {
     path: '/403',
     component: () => import(/* webpackChunkName: "routePage" */ '@/views/exception/403'),
     name: 'page_403',
+    meta: { title: '403'},
     hidden: true,
   },
   {
     path: '/401',
     component: () => import(/* webpackChunkName: "routePage" */ '@/views/exception/401'),
     name: 'page_401',
-    hidden: true,
+    meta: { title: '401'},
+    hidden: true
   },
   { 
     path: '*',
-    // redirect: '/404',
-    component: () => import(/* webpackChunkName: "routePage" */ '@/views/exception/404'),
+    redirect: '/404',
+    // component: () => import(/* webpackChunkName: "routePage" */ '@/views/exception/404'),
     hidden: true 
   }
 ]
