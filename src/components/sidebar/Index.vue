@@ -1,7 +1,7 @@
 <template>
   <el-menu :unique-opened=true
            :router=true
-           :collapse="isCollapse"
+           :collapse="collapse"
            background-color="#545c64"
            text-color="#fff"
            active-text-color="#ffd04b"
@@ -41,8 +41,8 @@ export default {
     routes() {
       return filterRouterMap(routerMap, this.$store.getters['user/roles'])
     },
-    isCollapse() {
-      return false //!this.sidebar.opened
+    collapse() {
+      return this.$store.getters['common/collapse']
     }
   },
   methods: {
