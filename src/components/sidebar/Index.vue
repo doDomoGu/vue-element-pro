@@ -5,7 +5,8 @@
            background-color="#545c64"
            text-color="#fff"
            active-text-color="#ffd04b"
-           :default-active="$route.path">
+           :default-active="$route.path"
+           :collapse-transition=false>
     <menu-item v-for="route in routes" :item="route" :key="route.path" :base-path="route.path" />
   </el-menu>
 </template>
@@ -52,5 +53,7 @@ export default {
 <style scoped>
 .el-menu {
   height: 100%;
+  width: 100%;
+  border: none;
 }
 </style>
