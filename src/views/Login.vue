@@ -57,7 +57,18 @@ export default {
             ])
             .then( () => {
               if( this.$store.getters["auth/loginState"]){
-                this.$router.push({ name: "home" });
+                this.$store.dispatch('user/GetInfo').then(() => {
+                  if(this.$store.getters['user/id'] > -1){
+                    this.$router.push({ name: "home" })
+                  }else{
+                    this.$alert('获取用户信息失败', "消息提示", {
+                      confirmButtonText: "确定",
+                      type: "error",
+                      showClose: false,
+                      callback: () => {}
+                    });
+                  }
+                })
               } else {
                 this.$alert(this.$store.getters["auth/loginErrorMsg"], "消息提示", {
                   confirmButtonText: "确定",
