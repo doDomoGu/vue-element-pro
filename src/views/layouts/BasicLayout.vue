@@ -6,7 +6,8 @@
     <el-container>
       <el-header>
         <div class="collapse-btn" @click="collapseChage">
-            <i class="el-icon-menu"></i>
+            <i class="el-icon-caret-right" v-if="$store.getters['common/collapse']"></i>
+            <i class="el-icon-caret-left" v-if="!$store.getters['common/collapse']"></i>
         </div>
         <el-button @click="logout">退出</el-button>
       </el-header>

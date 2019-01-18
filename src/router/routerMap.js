@@ -19,13 +19,13 @@ export default [
     children: [
       {
         path: 'admin',
-        component: () => import(/* webpackChunkName: "routePage" */ '@/views/Admin'),
+        component: () => import(/* webpackChunkName: "routePage" */ '@/views/roles/Admin'),
         name: 'admin',
         meta: { title: '管理员', icon: 'setting', noCache: true , roles: []},
       },
       {
         path: 'user',
-        component: () => import(/* webpackChunkName: "routePage" */ '@/views/User'),
+        component: () => import(/* webpackChunkName: "routePage" */ '@/views/roles/User'),
         name: 'user',
         meta: { title: '普通用户', icon: 'setting', noCache: true, roles: [USER_ROLE] },
       },
