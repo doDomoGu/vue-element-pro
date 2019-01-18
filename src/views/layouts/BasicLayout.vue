@@ -1,16 +1,10 @@
 <template>
   <el-container>
     <el-aside :style="{width:aSideWidth}">
-      <sidebar/>  
+      <v-sidebar/>  
     </el-aside>
-    <el-container>
-      <el-header>
-        <div class="collapse-btn" @click="collapseChage">
-            <i class="el-icon-caret-right" v-if="$store.getters['common/collapse']"></i>
-            <i class="el-icon-caret-left" v-if="!$store.getters['common/collapse']"></i>
-        </div>
-        <el-button @click="logout">退出</el-button>
-      </el-header>
+    <el-container direction="vertical">
+      <v-header/>
       <el-main>
         <router-view/>
       </el-main>
@@ -21,32 +15,21 @@
   </el-container>
 </template>
 <script>
-import Sidebar from '@/components/sidebar/Index'
+import VSidebar from '@/components/sidebar/Index'
+import VHeader from '@/components/Header'
 export default {
   name: 'BasicLayout',
-  components: { Sidebar },
+  components: { VSidebar, VHeader },
   data(){
     return {
-      aSideWidth : '300px'
+    }
+  },
+  computed: {
+    aSideWidth() {
+      return this.$store.getters['common/aSideWidth']
     }
   },
   methods:{
-    logout(){
-      this.$store.dispatch('auth/Logout').then(()=>{
-        if(!this.$store.getters['auth/loginState']){
-          this.$router.push({name:'login'})
-        }
-      })
-    },
-    // 侧边栏折叠
-    collapseChage(){
-        this.$store.commit('common/SetCollapse', !this.$store.getters['common/collapse'])
-        if(this.$store.getters['common/collapse']){
-          this.aSideWidth = '64px';
-        }else{
-          this.aSideWidth = '300px';
-        }
-    },
   }
 }
 </script>
@@ -58,17 +41,6 @@ export default {
   -webkit-transition: width .3s;
   transition: width .3s;
 }
-.el-header {
-  text-align: center;
-  line-height: 60px;
-  background: #b3c0d1;
-  .collapse-btn {
-    float: left;
-    cursor: pointer;
-    line-height: 60px;
-  }
-}
-
 .el-footer {
   text-align: center;
   line-height: 60px;
