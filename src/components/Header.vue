@@ -1,10 +1,25 @@
 <template>
   <el-header>
-    <div class="collapse-btn" @click="collapseChage">
-        <i class="el-icon-caret-right" v-if="collapse"></i>
-        <i class="el-icon-caret-left" v-if="!collapse"></i>
+    <div class="header-left">
+        <i :class="['collapse-btn','el-icon-caret-' + (collapse?'right':'left')]" @click="collapseChage" ></i>
     </div>
-    <el-button @click="logout">退出</el-button>
+    <div class="header-right">
+      
+      <div class="user-action" >
+        <!-- 用户头像 -->
+        <img class="user-avatar" src="/user_avatar.png">
+        <!-- 下拉菜单 -->
+        <el-dropdown class="user-name" trigger="click" @command="handleCommand">
+            <span class="el-dropdown-link">
+                {{username}} <i class="el-icon-caret-bottom"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="logout">退出账号</el-dropdown-item>
+            </el-dropdown-menu>
+        </el-dropdown>
+      </div>
+      
+    </div>
   </el-header>
 </template>
 <script>
@@ -14,6 +29,9 @@ export default {
     // 是否折叠
     collapse() {
       return this.$store.getters['common/collapse']
+    },
+    username() {
+      return this.$store.getters['user/name']
     }
   },
   methods: {
@@ -26,13 +44,15 @@ export default {
         this.$store.commit('common/SetASideWidth','300px');
       }
     },
-    // 登出操作
-    logout(){
-      this.$store.dispatch('auth/Logout').then(()=>{
-        if(!this.$store.getters['auth/loginState']){
-          this.$router.push({name:'login'})
-        }
-      })
+    handleCommand(command) {
+      // 登出操作
+      if(command === 'logout'){
+        this.$store.dispatch('auth/Logout').then( () => {
+          if(!this.$store.getters['auth/loginState']){
+            this.$router.push({name:'login'})
+          }
+        })
+      }
     }
   }
 };
@@ -42,10 +62,34 @@ export default {
   text-align: center;
   line-height: 60px;
   background: #b3c0d1;
-  .collapse-btn {
+  
+  .header-left {
     float: left;
-    cursor: pointer;
-    line-height: 60px;
+    .collapse-btn {
+      cursor: pointer;
+      line-height: 60px;
+    }
+  }
+  .header-right {
+    float: right;
+    .user-action {
+      float: right;
+      .user-avatar {
+        margin: 10px;
+        width: 40px;
+        height: 40px;
+        background: #eee;
+        border-radius: 4px;
+      }
+      .user-name { 
+        float: right;
+        margin: 10px 0;
+        height: 40px;
+        line-height: 40px;
+        cursor: pointer;
+      }
+    }
+    
   }
 }
 
