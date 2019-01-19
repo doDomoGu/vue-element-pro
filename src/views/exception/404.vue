@@ -1,3 +1,6 @@
 <template>
-  <div>404 Not Found</div>
+  <div>
+    <div>404 Not Found </div>
+    <router-link :to="{ name: 'home' }" >返回首页>></router-link>
+  </div>
 </template>

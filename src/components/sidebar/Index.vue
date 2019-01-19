@@ -16,20 +16,36 @@ import MenuItem from './MenuItem'
 import routerMap from "@/router/routerMap"
 import { ADMIN_ROLE } from '@/config/constantVariables'
 
-function hasPermission(router, roles) {
-  if (roles.indexOf(ADMIN_ROLE) > -1) return true // 管理员角色 拥有所有权限
-  if (router.meta === undefined || router.meta.roles === undefined) return true  //无限制
-  return roles.some(role => router.meta.roles.indexOf(role) > -1)  //roles 和 router.meta.roles 逐一匹配，有一个符合即可
+
+function hasPermission(routerRoles, userRoles) {
+  if (userRoles.indexOf(ADMIN_ROLE) > -1) return true // 管理员角色 拥有所有权限
+  // if (router.meta === undefined || router.meta.roles === undefined) return true  //无限制
+  if (routerRoles === undefined) return true  //无限制
+  return userRoles.some(role => routerRoles.indexOf(role) > -1)  //userRoles 和 routerRoles 逐一匹配，有一个符合即可
 }
 
 function filterRouterMap(routerMap, roles){
   let routes = []
   routerMap.forEach(r=>{
+    console.log(' ')
+    console.log(r.path)
     if(!r.hidden && hasPermission(r, roles)){
-      if(r.children && r.children.length > 0) {
-        r.children = filterRouterMap(r.children, roles)
+      if(r.children){
+        if(r.meta===undefined){
+          //if( filterRouterMap(r.children, roles) . length == 1){
+            let tempMap = filterRouterMap(r.children, roles)
+            for(let i in tempMap){
+              routes.push(tempMap[i])
+            }
+          //}
+        }else{
+          r.children = filterRouterMap(r.children, roles)
+          routes.push(r)
+        }
+      } else{
+        routes.push(r)
       }
-      routes.push(r)
+      
     }
   })
   return routes
