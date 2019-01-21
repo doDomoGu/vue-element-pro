@@ -2,6 +2,10 @@ import { /* ADMIN_ROLE, */ USER_ROLE } from '@/config/constantVariables'
 
 import BasicLayout from '@/views/layouts/BasicLayout'
 
+const RolesAdmin  = () => import(/* webpackChunkName: "routePage" */ '@/views/roles/Admin')
+const RolesUser  = () => import(/* webpackChunkName: "routePage" */ '@/views/roles/User')
+const Home  = () => import(/* webpackChunkName: "routePage" */ '@/views/Home')
+
 /*
  * 路由表配置 routerConfig
  * path : 路径 String
@@ -21,19 +25,28 @@ import BasicLayout from '@/views/layouts/BasicLayout'
  */
 export default [
   {
+    path: '',
+    redirect: { name: 'home' },
+    menu: { 
+      hidden: true,
+    },
+  },
+  {
     path: '/roles',
     component: BasicLayout,
+    redirect: { name: 'admin' },
     meta: { 
       title: '角色' 
     },
     menu: { 
       icon: 'picture',
-      // hidden: true
+      // hidden: true,
+      // ignore: true,
     },
     children: [
       {
         path: 'admin',
-        component: () => import(/* webpackChunkName: "routePage" */ '@/views/roles/Admin'),
+        component: RolesAdmin,
         name: 'admin',
         meta: { 
           title: '管理员',
@@ -46,25 +59,25 @@ export default [
       },
       {
         path: 'user',
-        component: () => import(/* webpackChunkName: "routePage" */ '@/views/roles/User'),
+        component: RolesUser,
         name: 'user',
-        //meta: { title: '普通用户', icon: 'setting', noCache: true, roles: [USER_ROLE] },
+        // meta: { title: '普通用户', icon: 'setting', noCache: true, roles: [USER_ROLE] },
         children: [
           {
             path: 'admin22',
-            component: () => import(/* webpackChunkName: "routePage" */ '@/views/roles/Admin'),
+            component: RolesAdmin,
             name: 'admin22',
             meta: { 
               title: '管理员',
               roles: [] 
             },
             menu: { 
-              icon: 'setting' 
+              icon: 'picture' 
             }
           },
           {
             path: 'user22',
-            component: () => import(/* webpackChunkName: "routePage" */ '@/views/roles/User'),
+            component: RolesUser,
             name: 'user22',
             meta: { 
               title: '用户',
@@ -79,7 +92,7 @@ export default [
     ],
   },
   {
-    path: '',
+    path: '/xx',
     component: BasicLayout,
     redirect: { name: 'home' },
     meta: { 
@@ -91,23 +104,41 @@ export default [
     },
     children: [
       {
-        path: '',
-        component: () => import(/* webpackChunkName: "routePage" */ '@/views/Home'),
+        path: '222DD',
+        component: Home,
+        name: 'home22',
+        // redirect: { name: 'home33' },
+        meta: { 
+          title: '主页233' 
+        },
+        menu: { 
+          icon: 'setting',
+          
+        },
+      },
+      {
+        path: 'xx2',
+        component: Home,
         // name: 'home',
         redirect: { name: 'home' },
-        meta: { title: '主页2' },
-        menu: { icon: 'setting' },
+        meta: { 
+          title: '主页2' 
+        },
+        menu: { 
+          icon: 'setting',
+          
+        },
         children: [
           {
-            path: '22',
-            component: () => import(/* webpackChunkName: "routePage" */ '@/views/Home'),
-            name: 'home3-1',
+            path: 'home',
+            component: Home,
+            name: 'home',
             meta: { title: '主页3-1' },
             menu: { icon: 'setting' }
           },
           {
             path: '33',
-            component: () => import(/* webpackChunkName: "routePage" */ '@/views/Home'),
+            component: Home,
             name: 'home3-2',
             meta: { title: '主页3-2' },
             menu: { icon: 'setting' }
@@ -117,15 +148,21 @@ export default [
     ]
   },
   {
-    path: '',
+    path: '/22',
     component: BasicLayout,
     redirect: { name: 'home' },
+    menu: { ignore: true },
     children: [
       {
-        path: '/2',
-        component: () => import(/* webpackChunkName: "routePage" */ '@/views/Home'),
-        name: 'home2',
-        meta: { title: '主页2', icon: 'setting', noCache: true },
+        path: '/22',
+        component: Home,
+        name: 'home222',
+        meta: { 
+          title: '主页2' 
+        },
+        menu: { 
+          icon: 'setting' 
+        }
       }
     ]
   },
