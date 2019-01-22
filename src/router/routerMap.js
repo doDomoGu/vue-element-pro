@@ -1,6 +1,7 @@
 import { /* ADMIN_ROLE, */ USER_ROLE } from '@/config/constantVariables'
 
 import BasicLayout from '@/views/layouts/BasicLayout'
+import BlankLayout from '@/components/BlankLayout'
 
 const RolesAdmin  = () => import(/* webpackChunkName: "routePage" */ '@/views/roles/Admin')
 const RolesUser  = () => import(/* webpackChunkName: "routePage" */ '@/views/roles/User')
@@ -59,7 +60,7 @@ export default [
       },
       {
         path: 'user',
-        component: RolesUser,
+        component: BlankLayout,
         name: 'user',
         // meta: { title: '普通用户', icon: 'setting', noCache: true, roles: [USER_ROLE] },
         children: [
