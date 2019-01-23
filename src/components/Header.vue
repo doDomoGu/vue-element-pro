@@ -1,7 +1,10 @@
 <template>
   <el-header>
     <div class="header-left">
-        <i :class="['collapse-btn','el-icon-caret-' + (collapse?'right':'left')]" @click="collapseChage" ></i>
+      
+        <!-- <i :class="['collapse-btn','el-icon-caret-' + (collapse?'right':'left')]" @click="collapseChage" ></i> -->
+        <!-- <i :class="['collapse-btn','el-icon-caret-right',(collapse ? 'collapsed' : 'no-collapse')]" @click="collapseChage" ></i> -->
+        <i :class="['collapse-btn','fa','fa-bars',(collapse ? 'collapsed' : 'no-collapse')]" @click="collapseChage" ></i>
     </div>
     <div class="header-right">
       
@@ -68,6 +71,11 @@ export default {
     .collapse-btn {
       cursor: pointer;
       line-height: 60px;
+      &.collapsed {
+        transform: rotate(90deg);
+        transition: .38s;
+        // transform-origin: 50% 50%;
+      }
     }
   }
   .header-right {

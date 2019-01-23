@@ -8,10 +8,14 @@ import Element from 'element-ui'
 import '@/config/element-variables.scss'
 Vue.use(Element)
 
-/* LocalStorage */
+/* LocalStorage 本地储存 */
 import Storage from 'vue-ls';
 import { STORAGE_OPTIONS } from '@/config/constantVariables'
 Vue.use(Storage, STORAGE_OPTIONS);
+
+/* Font Awesome 图标 */
+import 'font-awesome/css/font-awesome.min.css'
+
 
 Vue.config.productionTip = false
 
