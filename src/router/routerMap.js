@@ -3,13 +3,19 @@ import { /* ADMIN_ROLE, */ USER_ROLE } from '@/config/constantVariables'
 import BasicLayout from '@/views/example/layouts/BasicLayout'
 import BlankLayout from '@/components/layouts/BlankLayout'
 
-const RolesAdmin  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/roles/Admin')
-const RolesUser  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/roles/User')
+
+
 const Home  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/Home')
 const Login  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/Login')
+
 const Page404  = () => import(/* webpackChunkName: "routePage" */ '@/components/exception/404')
 const Page403  = () => import(/* webpackChunkName: "routePage" */ '@/components/exception/403')
 const Page401  = () => import(/* webpackChunkName: "routePage" */ '@/components/exception/401')
+
+const RolesAdmin  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/roles/Admin')
+const RolesUser  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/roles/User')
+
+const Theme  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/Theme')
 
 /*
  * 路由表配置 routerConfig
@@ -22,7 +28,7 @@ const Page401  = () => import(/* webpackChunkName: "routePage" */ '@/components/
  *    roles : 有权限的用户角色组， 没有表示不限制  
  * }
  * menu: 菜单设置 Object { 
- *    icon : 图标
+ *    icon : 图标 (或者使用 icon_fa: 引入的font-awesome图标 参考 [http://fontawesome.dashgame.com])
  *    hidden: 在菜单里隐藏，子菜单(children)一并隐藏
  *    ignore: 忽略此层级，子菜单级数提升至此层  （用于layout/path嵌套）
  * }
@@ -139,7 +145,7 @@ export default [
             component: Home,
             name: 'home',
             meta: { title: '主页3-1' },
-            menu: { icon: 'setting' }
+            menu: { icon_fa: 'gear' }
           },
           {
             path: '33',
@@ -168,6 +174,20 @@ export default [
         menu: { 
           icon: 'setting' 
         }
+      }
+    ]
+  },
+  {
+    path: '',
+    component: BasicLayout,
+    menu: { ignore: true },
+    children: [
+      {
+        path: 'theme',
+        component: Theme,
+        name: 'theme',
+        meta: { title: '主题皮肤' },
+        menu: { icon_fa: 'sliders'}
       }
     ]
   },

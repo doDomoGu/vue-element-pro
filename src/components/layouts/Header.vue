@@ -86,10 +86,12 @@ export default {
       }
       .user-name { 
         float: right;
-        margin: 10px 0;
-        height: 40px;
-        line-height: 40px;
-        cursor: pointer;
+        // margin: 10px 0;
+        // height: 40px;
+        // line-height: 40px;
+        .el-dropdown-link {
+          cursor: pointer;
+        }
       }
     }
     
