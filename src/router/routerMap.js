@@ -1,4 +1,4 @@
-import { /* ADMIN_ROLE, */ USER_ROLE } from '@/config/constantVariables'
+import { ADMIN_ROLE, USER_ROLE } from '@/config/constantVariables'
 
 import BasicLayout from '@/views/example/layouts/BasicLayout'
 import BlankLayout from '@/components/layouts/BlankLayout'
@@ -80,7 +80,7 @@ export default [
             name: 'admin22',
             meta: { 
               title: '管理员',
-              roles: [] 
+              roles: [ ADMIN_ROLE ] 
             },
             menu: { 
               icon: 'picture' 
@@ -92,7 +92,7 @@ export default [
             name: 'user22',
             meta: { 
               title: '用户',
-              roles: [ USER_ROLE ] 
+              roles: [ ADMIN_ROLE, USER_ROLE ] 
             },
             menu: { 
               icon: 'setting' 

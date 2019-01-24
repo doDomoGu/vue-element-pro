@@ -14,11 +14,11 @@
 <script>
 import MenuItem from './MenuItem'
 import routerMap from "@/router/routerMap"
-import { ADMIN_ROLE } from '@/config/constantVariables'
+// import { ADMIN_ROLE } from '@/config/constantVariables'
 
 
 function hasPermission(router, userRoles) {
-  if (userRoles.indexOf(ADMIN_ROLE) > -1) return true // 管理员角色 拥有所有权限
+  // if (userRoles.indexOf(ADMIN_ROLE) > -1) return true // 管理员角色 拥有所有权限
   // 判断当前路由是否有角色限制选项
   if(router!==undefined && router.meta!==undefined && router.meta.roles!==undefined){
     //userRoles(当前用户角色) 和 routerRoles(当前路由对应的角色) 逐一匹配，有一个符合即可

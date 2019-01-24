@@ -7,7 +7,7 @@ import store from '@/store'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css'// progress bar style
 import { getToken } from '@/utils/authToken' // getToken from cookie
-import { ADMIN_ROLE } from '@/config/constantVariables'
+// import { ADMIN_ROLE } from '@/config/constantVariables'
 
 Vue.use(Router)
 
@@ -26,7 +26,7 @@ const whiteList = ['login', 'auth-redirect']// 免登陆白名单
 // 参数 roles：当前用户拥有的权限角色  
 // 参数 permissionRoles：这个路由允许的权限角色
 function hasPermission(roles, permissionRoles) {
-  if (roles.indexOf(ADMIN_ROLE) >= 0) return true // 管理员角色 拥有所有权限
+  // if (roles.indexOf(ADMIN_ROLE) >= 0) return true // 管理员角色 拥有所有权限
   if (!permissionRoles) return false  //permissionRoles为空 表示没有允许的角色 
   return roles.some(role => permissionRoles.indexOf(role) > -1)  //roles 和 permissionRoles 逐一匹配，有一个符合即可
 }
