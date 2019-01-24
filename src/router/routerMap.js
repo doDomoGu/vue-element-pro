@@ -1,11 +1,15 @@
 import { /* ADMIN_ROLE, */ USER_ROLE } from '@/config/constantVariables'
 
-import BasicLayout from '@/views/layouts/BasicLayout'
-import BlankLayout from '@/components/BlankLayout'
+import BasicLayout from '@/views/example/layouts/BasicLayout'
+import BlankLayout from '@/components/layouts/BlankLayout'
 
-const RolesAdmin  = () => import(/* webpackChunkName: "routePage" */ '@/views/roles/Admin')
-const RolesUser  = () => import(/* webpackChunkName: "routePage" */ '@/views/roles/User')
-const Home  = () => import(/* webpackChunkName: "routePage" */ '@/views/Home')
+const RolesAdmin  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/roles/Admin')
+const RolesUser  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/roles/User')
+const Home  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/Home')
+const Login  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/Login')
+const Page404  = () => import(/* webpackChunkName: "routePage" */ '@/components/exception/404')
+const Page403  = () => import(/* webpackChunkName: "routePage" */ '@/components/exception/403')
+const Page401  = () => import(/* webpackChunkName: "routePage" */ '@/components/exception/401')
 
 /*
  * 路由表配置 routerConfig
@@ -169,28 +173,28 @@ export default [
   },
   {
     path: '/login',
-    component: () => import(/* webpackChunkName: "routePage" */ '@/views/Login'),
+    component: Login,
     name: 'login',
     meta: { title: '登录页面' },
     menu: { hidden: true}
   },
   {
     path: '/404',
-    component: () => import(/* webpackChunkName: "routePage" */ '@/views/exception/404'),
+    component: Page404,
     name: 'page_404',
     meta: { title: '404 Not Found'},
     menu: { hidden: true}
   },
   {
     path: '/403',
-    component: () => import(/* webpackChunkName: "routePage" */ '@/views/exception/403'),
+    component: Page403,
     name: 'page_403',
     meta: { title: '403'},
     menu: { hidden: true}
   },
   {
     path: '/401',
-    component: () => import(/* webpackChunkName: "routePage" */ '@/views/exception/401'),
+    component: Page401,
     name: 'page_401',
     meta: { title: '401'},
     menu: { hidden: true}
@@ -198,7 +202,6 @@ export default [
   { 
     path: '*',
     redirect: '/404',
-    // component: () => import(/* webpackChunkName: "routePage" */ '@/views/exception/404'),
     menu: { hidden: true}
   }
 ]

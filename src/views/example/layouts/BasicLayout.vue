@@ -15,8 +15,8 @@
   </el-container>
 </template>
 <script>
-import vSidebar from '@/components/sidebar/Index'
-import vHeader from '@/components/Header'
+import vSidebar from '@/components/layouts/sidebar/Index'
+import vHeader from '@/components/layouts/Header'
 export default {
   name: 'BasicLayout',
   components: { vSidebar, vHeader },
