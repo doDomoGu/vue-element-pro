@@ -36,7 +36,7 @@ const Theme  = () => import(/* webpackChunkName: "routePage" */ '@/views/example
  */
 export default [
   {
-    path: '',
+    path: '/',
     redirect: { name: 'home' },
     menu: { 
       hidden: true,
@@ -178,7 +178,7 @@ export default [
     ]
   },
   {
-    path: '',
+    path: '/',
     component: BasicLayout,
     menu: { ignore: true },
     children: [

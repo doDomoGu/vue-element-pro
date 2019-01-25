@@ -16,6 +16,9 @@ Vue.use(Storage, STORAGE_OPTIONS);
 /* Font Awesome 图标 */
 import 'font-awesome/css/font-awesome.min.css'
 
+import '@/assets/theme/purple/index.css' 
+import '@/assets/theme/teal/index.css' 
+
 
 Vue.config.productionTip = false
 
