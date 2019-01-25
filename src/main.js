@@ -3,6 +3,11 @@ import App from '@/App.vue'
 import router from '@/router'
 import store from '@/store'
 
+import '@/assets/index.css'
+
+import '@/assets/custom-theme/purple/styles/index.css' 
+import '@/assets/custom-theme/teal/styles/index.css' 
+
 /* element-ui */
 import '@/config/element-variables.scss'
 import Element from 'element-ui'
@@ -16,8 +21,7 @@ Vue.use(Storage, STORAGE_OPTIONS);
 /* Font Awesome 图标 */
 import 'font-awesome/css/font-awesome.min.css'
 
-import '@/assets/custom-theme/purple/styles/index.css' 
-import '@/assets/custom-theme/teal/styles/index.css' 
+
 
 
 Vue.config.productionTip = false
