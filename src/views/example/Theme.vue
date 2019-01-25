@@ -57,15 +57,22 @@
       </div>
 
       <div class="block">
-        <el-radio-group v-model="radio">
-          <el-radio :label="3">Option A</el-radio>
-          <el-radio :label="6">Option B</el-radio>
-          <el-radio :label="9">Option C</el-radio>
+        <div class="block__title">单选框</div>
+        <el-radio-group v-model="radioValue">
+          <el-radio :label="'A'">选项 A</el-radio>
+          <el-radio :label="'B'">选项 B</el-radio>
+          <el-radio :label="'C'">选项 C</el-radio>
         </el-radio-group>
       </div>
 
       <div class="block">
-        <el-slider v-model="slideValue" />
+        <div class="block__title">开关</div>
+        <el-switch v-model="switchValue" ></el-switch>
+      </div>
+
+      <div class="block">
+        <div class="block__title">滑块</div>
+        <el-slider v-model="sliderValue" />
       </div>
     </div>
   </div>
@@ -80,8 +87,9 @@ export default {
   data() {
     return {
       theme: 1,
-      slideValue: 50,
-      radio: 3
+      switchValue: false,
+      sliderValue: 50,
+      radioValue: 'A'
     }
   },
   watch: {
