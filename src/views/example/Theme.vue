@@ -79,7 +79,7 @@ export default {
   name: 'Theme',
   data() {
     return {
-      theme: 3,
+      theme: 1,
       slideValue: 50,
       radio: 3
     }

@@ -4,8 +4,8 @@ import router from '@/router'
 import store from '@/store'
 
 /* element-ui */
-import Element from 'element-ui'
 import '@/config/element-variables.scss'
+import Element from 'element-ui'
 Vue.use(Element)
 
 /* LocalStorage 本地储存 */
@@ -16,8 +16,8 @@ Vue.use(Storage, STORAGE_OPTIONS);
 /* Font Awesome 图标 */
 import 'font-awesome/css/font-awesome.min.css'
 
-import '@/assets/theme/purple/index.css' 
-import '@/assets/theme/teal/index.css' 
+import '@/assets/custom-theme/purple/styles/index.css' 
+import '@/assets/custom-theme/teal/styles/index.css' 
 
 
 Vue.config.productionTip = false
