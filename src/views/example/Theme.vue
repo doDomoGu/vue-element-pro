@@ -75,22 +75,35 @@
         <el-slider v-model="sliderValue" />
       </div>
     </div>
+    <markdown>
+      <md-content />
+    </markdown>
   </div>
 </template>
 
 <script>
 // import { toggleClass } from '@/utils'
 // import '@/assets/custom-theme/index.css' // the theme changed version element-ui css
+import markdown from '@/components/markdown'
+import mdContent from './demo.md'
 
 export default {
+  components: {
+    markdown,
+    mdContent
+  },
   name: 'Theme',
   data() {
     return {
       theme: 1,
       switchValue: true,
       sliderValue: 50,
-      radioValue: 'A'
+      radioValue: 'A',
+      content: ''
     }
+  },
+  created(){
+    console.log(mdContent)
   },
   watch: {
     theme(val) {
@@ -151,8 +164,4 @@ export default {
     margin-right: 15px;
   }
 }
-
-
-
-
 </style>
