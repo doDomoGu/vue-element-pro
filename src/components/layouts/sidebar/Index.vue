@@ -37,20 +37,21 @@ function isHidden(router){
   }
 }
 
-function isIgnore(router){
+/* function isIgnore(router){
   if(router!==undefined && router.menu!==undefined && router.menu.ignore!==undefined){
     return router.menu.ignore
   }else{
     return false
   }
-}
+} */
 
 function filterRouterMap(routerMap, roles){
   let routes = []
   routerMap.forEach(r=>{
     if(!isHidden(r) && hasPermission(r, roles)){
       if(r.children){
-        if(!isIgnore(r)){
+        r.children = filterRouterMap(r.children, roles)
+        /* if(!isIgnore(r)){
           r.children = filterRouterMap(r.children, roles)
           routes.push(r)
         }else{
@@ -60,8 +61,9 @@ function filterRouterMap(routerMap, roles){
           }
         }
       } else{
-        routes.push(r)
+        routes.push(r) */
       }
+      routes.push(r)
     }
   })
   return routes
@@ -72,6 +74,9 @@ export default {
   components: { MenuItem },
   computed: {
     routes() {
+      // const s = filterRouterMap(routerMap, this.$store.getters['user/roles'])
+      // console.log(s)
+      // return s
       return filterRouterMap(routerMap, this.$store.getters['user/roles'])
     },
     collapse() {

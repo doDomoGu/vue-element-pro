@@ -79,7 +79,7 @@ export default [
             component: RolesAdmin,
             name: 'admin22',
             meta: { 
-              title: '管理员',
+              //title: '管理员',
               roles: [ ADMIN_ROLE ] 
             },
             menu: { 
@@ -159,13 +159,13 @@ export default [
     ]
   },
   {
-    path: '/22',
+    path: '/zs',
     component: BasicLayout,
     redirect: { name: 'home' },
     menu: { ignore: true },
     children: [
       {
-        path: '/22',
+        path: 'z1',
         component: Home,
         name: 'home222',
         meta: { 
@@ -178,7 +178,7 @@ export default [
     ]
   },
   {
-    path: '/',
+    path: '/223',
     component: BasicLayout,
     menu: { ignore: true },
     children: [

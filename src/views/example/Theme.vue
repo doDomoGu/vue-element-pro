@@ -16,8 +16,8 @@
       主题切换： 
       <el-radio-group v-model="theme">
         <el-radio-button label="1">默认主题</el-radio-button>
-        <el-radio-button label="2">主题2</el-radio-button>
-        <el-radio-button label="3">主题3</el-radio-button>
+        <el-radio-button label="2">主题2(Purple)</el-radio-button>
+        <el-radio-button label="3">主题3(Teal)</el-radio-button>
       </el-radio-group>
     </div>
     <div id="theme-preview">
@@ -87,7 +87,7 @@ export default {
   data() {
     return {
       theme: 1,
-      switchValue: false,
+      switchValue: true,
       sliderValue: 50,
       radioValue: 'A'
     }
