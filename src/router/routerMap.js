@@ -35,159 +35,49 @@ const Theme  = () => import(/* webpackChunkName: "routePage" */ '@/views/example
  * children : [ {routerConfig},{routerConfig}...]  子路由/嵌套路由配置
  */
 export default [
+  /* Home */
   {
     path: '/',
-    redirect: { name: 'home' },
-    menu: { 
-      hidden: true,
-    },
-  },
-  {
-    path: '/roles',
     component: BasicLayout,
-    redirect: { name: 'admin' },
-    meta: { 
-      title: '角色' 
-    },
-    menu: { 
-      icon: 'picture',
-      // hidden: true,
-      // ignore: true,
-    },
+    redirect: { name: 'home' },
+    menu: { ignore : true },
     children: [
       {
-        path: 'admin',
-        component: RolesAdmin,
-        name: 'admin',
-        meta: { 
-          title: '管理员',
-          roles: [] 
-        },
-        menu: { 
-          icon: 'setting',
-          // hidden: true
-        }
+        path: '',
+        component: Home,
+        name: 'home',
+        meta: { title: '首页' },
+        menu: { icon: 'menu' },
       },
       {
-        path: 'user',
+        path: '/roles',
         component: BlankLayout,
-        name: 'user',
-        // meta: { title: '普通用户', icon: 'setting', noCache: true, roles: [USER_ROLE] },
+        redirect: { name: 'admin' },
+        meta: { title: '角色权限' },
+        menu: { icon: 'fa-users' },
         children: [
           {
-            path: 'admin22',
+            path: 'admin',
             component: RolesAdmin,
-            name: 'admin22',
-            meta: { 
-              //title: '管理员',
-              roles: [ ADMIN_ROLE ] 
-            },
-            menu: { 
-              icon: 'picture' 
-            }
+            name: 'admin',
+            meta: { title: '管理员', roles: [ ADMIN_ROLE ] },
+            menu: { icon: 'fa-user' }
           },
           {
-            path: 'user22',
+            path: 'user',
             component: RolesUser,
-            name: 'user22',
-            meta: { 
-              title: '用户',
-              roles: [ ADMIN_ROLE, USER_ROLE ] 
-            },
-            menu: { 
-              icon: 'setting' 
-            }
+            name: 'user',
+            meta: { title: '普通用户', roles: [ ADMIN_ROLE, USER_ROLE ] },
+            menu: { icon: 'fa-user-o' }
           },
         ],
       },
-    ],
-  },
-  {
-    path: '/xx',
-    component: BasicLayout,
-    redirect: { name: 'home' },
-    meta: { 
-      title: '主页-1',
-      // roles: [] 
-    },
-    menu: { 
-      icon: 'setting' 
-    },
-    children: [
-      {
-        path: '222DD',
-        component: Home,
-        name: 'home22',
-        // redirect: { name: 'home33' },
-        meta: { 
-          title: '主页233' 
-        },
-        menu: { 
-          icon: 'setting',
-          
-        },
-      },
-      {
-        path: 'xx2',
-        component: Home,
-        // name: 'home',
-        redirect: { name: 'home' },
-        meta: { 
-          title: '主页2' 
-        },
-        menu: { 
-          icon: 'setting',
-          
-        },
-        children: [
-          {
-            path: 'home',
-            component: Home,
-            name: 'home',
-            meta: { title: '主页3-1' },
-            menu: { icon_fa: 'gear' }
-          },
-          {
-            path: '33',
-            component: Home,
-            name: 'home3-2',
-            meta: { title: '主页3-2' },
-            menu: { icon: 'setting' }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    path: '/zs',
-    component: BasicLayout,
-    redirect: { name: 'home' },
-    menu: { ignore: true },
-    children: [
-      {
-        path: 'z1',
-        component: Home,
-        name: 'home222',
-        meta: { 
-          title: '主页2' 
-        },
-        menu: { 
-          icon: 'setting' 
-        }
-      }
-    ]
-  },
-  {
-    path: '/223',
-    component: BasicLayout,
-    menu: { ignore: true },
-    children: [
       {
         path: 'theme',
         component: Theme,
         name: 'theme',
         meta: { title: '主题皮肤' },
-        menu: { icon_fa: 'sliders'}
+        menu: { icon: 'fa-sliders'}
       }
     ]
   },
