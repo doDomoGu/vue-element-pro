@@ -50,7 +50,7 @@ export default [
         menu: { icon: 'menu' },
       },
       {
-        path: '/roles',
+        path: 'roles',
         component: BlankLayout,
         redirect: { name: 'admin' },
         meta: { title: '角色权限' },

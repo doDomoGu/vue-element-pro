@@ -103,7 +103,7 @@ export default {
     }
   },
   created(){
-    console.log(mdContent)
+    // console.log(mdContent)
   },
   watch: {
     theme(val) {
