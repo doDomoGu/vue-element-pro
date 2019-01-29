@@ -12,12 +12,16 @@ const Page404  = () => import(/* webpackChunkName: "routePage" */ '@/components/
 const Page403  = () => import(/* webpackChunkName: "routePage" */ '@/components/exception/403')
 const Page401  = () => import(/* webpackChunkName: "routePage" */ '@/components/exception/401')
 
+
+/* example */
 const RolesAdmin  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/roles/Admin')
 const RolesUser  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/roles/User')
 
 const Theme  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/Theme')
 
 const DocumentMenu  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/document/Menu')
+/* example */
+
 
 /*
  * 路由表配置 routerConfig
@@ -51,6 +55,14 @@ export default [
         meta: { title: '首页' },
         menu: { icon: 'menu' },
       },
+    ]
+  },
+  {
+    path: '/example',
+    component: BasicLayout,
+    redirect: { name: 'document-menu' },
+    menu: { ignore : true },
+    children: [
       {
         path: 'document',
         component: BlankLayout,
@@ -61,7 +73,7 @@ export default [
           {
             path: 'menu',
             component: DocumentMenu,
-            name: 'docuemnt-menu',
+            name: 'document-menu',
             meta: { title: '文档 - 目录' },
             menu: { icon: 'document' }
           },
