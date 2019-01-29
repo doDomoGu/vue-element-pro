@@ -4,7 +4,6 @@ const state = {
 }
 
 const actions = {
-  
 }
 
 const getters = {
@@ -13,12 +12,22 @@ const getters = {
 }
 
 const mutations = {
-  SetCollapse: (state, data) => {
+  SetCollapsed: (state) => {
+    state.collapse = true
+    state.aSideWidth = '64px'
+  },
+  SetOpened: (state) => {
+    state.collapse = false
+    state.aSideWidth = '300px'
+  },
+
+
+  /* SetCollapse: (state, data) => {
     state.collapse = data
   },
   SetASideWidth: (state, data) => {
     state.aSideWidth = data
-  },
+  }, */
 }
 
 export default {

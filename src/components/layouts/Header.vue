@@ -24,6 +24,7 @@
   </el-header>
 </template>
 <script>
+import { getSidebarCollapse, setSidebarCollapse } from "@/utils/common"           //通用工具函数
 export default {
   name : "my-header",
   computed: {
@@ -35,15 +36,20 @@ export default {
       return this.$store.getters['user/name']
     }
   },
+  mounted(){
+    if(getSidebarCollapse()){
+      this.$store.commit('common/SetCollapsed')
+    }
+  },
   methods: {
     // 侧边栏折叠
     collapseChage(){
-      this.$store.commit('common/SetCollapse', !this.collapse)
       if(this.collapse){
-        this.$store.commit('common/SetASideWidth','64px');
+        this.$store.commit('common/SetOpened')
       }else{
-        this.$store.commit('common/SetASideWidth','300px');
+        this.$store.commit('common/SetCollapsed')
       }
+      setSidebarCollapse(this.collapse)
     },
     handleCommand(command) {
       // 登出操作

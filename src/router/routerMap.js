@@ -61,7 +61,7 @@ export default [
     path: '/example',
     component: BasicLayout,
     redirect: { name: 'document-menu' },
-    menu: { ignore : true },
+    menu: { ignore : true, hidden: false },
     children: [
       {
         path: 'document',
