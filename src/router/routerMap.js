@@ -17,6 +17,8 @@ const RolesUser  = () => import(/* webpackChunkName: "routePage" */ '@/views/exa
 
 const Theme  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/Theme')
 
+const DocumentMenu  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/document/Menu')
+
 /*
  * 路由表配置 routerConfig
  * path : 路径 String
@@ -48,6 +50,22 @@ export default [
         name: 'home',
         meta: { title: '首页' },
         menu: { icon: 'menu' },
+      },
+      {
+        path: 'document',
+        component: BlankLayout,
+        redirect: { name: 'document-menu' },
+        meta: { title: '文档' },
+        menu: { icon: 'fa-book' },
+        children: [
+          {
+            path: 'menu',
+            component: DocumentMenu,
+            name: 'docuemnt-menu',
+            meta: { title: '文档 - 目录' },
+            menu: { icon: 'document' }
+          },
+        ]
       },
       {
         path: 'roles',
