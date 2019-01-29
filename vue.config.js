@@ -1,5 +1,5 @@
-const isProduction = process.env.NODE_ENV === 'production';
-const markdownRender = require('markdown-it')()
+// const isProduction = process.env.NODE_ENV === 'production';
+// const markdownRender = require('markdown-it')()
 
 module.exports = {
   // api接口 基础url地址

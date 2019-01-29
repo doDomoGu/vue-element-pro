@@ -85,7 +85,7 @@
 // import { toggleClass } from '@/utils'
 // import '@/assets/custom-theme/index.css' // the theme changed version element-ui css
 import markdown from '@/components/markdown'
-import mdContent from './demo.md'
+import mdContent from './theme.md'
 
 export default {
   components: {
