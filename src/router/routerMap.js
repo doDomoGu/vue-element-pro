@@ -19,7 +19,7 @@ const RolesUser  = () => import(/* webpackChunkName: "routePage" */ '@/views/exa
 
 const Theme  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/Theme')
 
-const DocumentMenu  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/document/Menu')
+const DocumentMd  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/document/Index')
 /* example */
 
 
@@ -60,24 +60,15 @@ export default [
   {
     path: '/example',
     component: BasicLayout,
-    redirect: { name: 'document-menu' },
+    redirect: { name: 'document-md' },
     menu: { ignore : true, hidden: false },
     children: [
       {
         path: 'document',
-        component: BlankLayout,
-        redirect: { name: 'document-menu' },
+        component: DocumentMd,
+        name: 'document-md',
         meta: { title: '文档' },
         menu: { icon: 'fa-book' },
-        children: [
-          {
-            path: 'menu',
-            component: DocumentMenu,
-            name: 'document-menu',
-            meta: { title: '文档 - 目录' },
-            menu: { icon: 'document' }
-          },
-        ]
       },
       {
         path: 'roles',
