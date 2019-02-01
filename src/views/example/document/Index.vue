@@ -1,44 +1,44 @@
 <template>
-  <div>
-    <router-link :to="{'name':'document-md','query':{'p':'menu'}}" >菜单</router-link>
-    <router-link :to="{'name':'document-md','query':{'p':'mock'}}" >Mockjs</router-link>
-    <markdown>
-      <md-menu v-if="p=='menu'" />
-      <md-mock v-else-if="p=='mock'" />
-    </markdown>
-  </div>
+  <el-tabs tab-position="left" v-model="tabSelected">
+    <el-tab-pane label="侧边栏菜单" name="menu">
+      <markdown>
+        <md-menu />
+      </markdown>
+    </el-tab-pane>
+    <el-tab-pane label="Mockjs" name="mock">
+      <markdown>
+        <md-mock />
+      </markdown>
+    </el-tab-pane>
+    <el-tab-pane label="主题皮肤" name="theme">
+      <markdown>
+        <md-theme />
+      </markdown>
+    </el-tab-pane>
+  </el-tabs>
 </template>
 <script>
 import markdown from '@/components/markdown'
 import mdMenu from './Menu.md'
 import mdMock from './Mock.md'
+import mdTheme from './Theme.md'
 
 export default {
   components: { 
     markdown,
     mdMenu,
-    mdMock 
+    mdMock,
+    mdTheme
   },
-  name: 'document-menu',
-  mounted(){
-    this.init()
-  },
-  watch: {
-    '$route' () {
-        this.init()
-    }
-  },
+  name: 'document',
   data(){
     return {
-      "p" : "menu"
+      tabSelected: 'mock'
     }
   },
-  methods:{
-    init(){
-      if(this.$route.query && this.$route.query.p){
-        this.p = this.$route.query.p
-      }
-      
+  created(){
+    if(this.$route.params && this.$route.params.tabSelected){
+      this.tabSelected = this.$route.params.tabSelected
     }
   }
 }

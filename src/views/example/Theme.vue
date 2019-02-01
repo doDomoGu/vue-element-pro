@@ -19,6 +19,7 @@
         <el-radio-button label="2">主题2(Purple)</el-radio-button>
         <el-radio-button label="3">主题3(Teal)</el-radio-button>
       </el-radio-group>
+      <router-link :to='{ name:"document",params:{ tabSelected:"theme" }}' >文档>></router-link>
     </div>
     <div id="theme-preview">
       <div class="block block-button">
@@ -75,23 +76,14 @@
         <el-slider v-model="sliderValue" />
       </div>
     </div>
-    <markdown>
-      <md-content />
-    </markdown>
   </div>
 </template>
 
 <script>
 // import { toggleClass } from '@/utils'
 // import '@/assets/custom-theme/index.css' // the theme changed version element-ui css
-import markdown from '@/components/markdown'
-import mdContent from './theme.md'
 
 export default {
-  components: {
-    markdown,
-    mdContent
-  },
   name: 'Theme',
   data() {
     return {

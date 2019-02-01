@@ -60,13 +60,13 @@ export default [
   {
     path: '/example',
     component: BasicLayout,
-    redirect: { name: 'document-md' },
+    redirect: { name: 'document' },
     menu: { ignore : true, hidden: false },
     children: [
       {
         path: 'document',
         component: DocumentMd,
-        name: 'document-md',
+        name: 'document',
         meta: { title: '文档' },
         menu: { icon: 'fa-book' },
       },
