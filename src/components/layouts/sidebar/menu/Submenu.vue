@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { resolvePath } from './path'
+import { resolvePath } from '@/utils/path'
 import vItem from './Item.vue'            //菜单项组件
 import vIcon from './Icon'                //图标组件
 

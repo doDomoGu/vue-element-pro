@@ -5,7 +5,7 @@
   </el-menu-item>
 </template>
 <script>
-import { resolvePath } from './path'
+import { resolvePath } from '@/utils/path'
 import vIcon from './Icon'
 
 export default {

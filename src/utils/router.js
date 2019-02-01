@@ -1,3 +1,5 @@
+import { resolvePath } from '@/utils/path'
+
 export function hasPermission(router, userRoles) {
   // 判断当前路由是否有角色限制选项
   if(router!==undefined && router.meta!==undefined && router.meta.roles!==undefined){
@@ -37,6 +39,7 @@ export function filterRouterMap(routerMap, roles){
         }else{
           const tempMap = filterRouterMap(r.children, roles)
           for(let i in tempMap){
+            tempMap[i].path = resolvePath(r.path, tempMap[i].path)
             routes.push(tempMap[i])
           }
         }
