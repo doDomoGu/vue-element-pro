@@ -4,14 +4,27 @@ import { getToken } from '@/utils/authToken'
 import { AUTH_TOKEN_KEY } from '@/config/constantVariables'
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
-axios.defaults.baseURL = process.env.VUE_APP_API_PREFIX
-
+if(process.env.VUE_APP_MOCK_ENABLE != 'TRUE'){
+  axios.defaults.baseURL = process.env.VUE_APP_API_PREFIX
+}
 axios.interceptors.request.use(
   config => {
+    console.log(config) 
+    // qs.
     //鉴权 Token传参
     const token = getToken()
     if (token != null) {
+
       config.headers[AUTH_TOKEN_KEY] = token
+
+      /* if(process.env.VUE_APP_MOCK_ENABLE != 'TRUE'){
+        config.headers[AUTH_TOKEN_KEY] = token
+      }else{
+        if(config.data == undefined){
+          config.data = {}
+        }
+        config.data[AUTH_TOKEN_KEY] = token
+      } */
     }
 
     // POST传参序列化
@@ -25,16 +38,16 @@ axios.interceptors.request.use(
     return Promise.reject(error)
   },
 )
-// code状态码200判断
-/*axios.interceptors.response.use((res) => {
-  if (res.status !== 200) {
-    console.log(res.data.msg)
-    return Promise.reject(res)
-  }
-  return res
-}, (error) => {
-  console.log('网络异常')
-  return Promise.reject(error)
-})*/
+
+//Mock 拦截请求打印response
+if(process.env.VUE_APP_MOCK_ENABLE == 'TRUE'){
+  axios.interceptors.response.use((res) => {
+    console.log(res.data)
+    return res
+  }, (error) => {
+    // console.log('网络异常')
+    return Promise.reject(error)
+  })
+}
 
 export default axios

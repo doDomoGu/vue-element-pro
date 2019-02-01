@@ -21,7 +21,7 @@ Vue.use(Storage, STORAGE_OPTIONS);
 /* Font Awesome 图标 */
 import 'font-awesome/css/font-awesome.min.css'
 
-/* mockjs 开发模拟后端接口 */
+/* mockjs 模拟后端数据 */
 if(process.env.VUE_APP_MOCK_ENABLE === 'TRUE'){
   const axios = require('@/utils/axios')
   require('@/mock/index')
