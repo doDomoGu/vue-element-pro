@@ -1,24 +1,24 @@
-import qs from 'qs'
-import { return_format } from '../utils'
-
+import { return_format, getToken } from '../utils'
 import users from '../models/user'
 
 export default {
   info: config => {
-    console.log(config)
-    console.log(qs.parse(config.body))
-
-    // const { {'X-Token'} } = qs.parse(config.body)
+    const token = getToken(config.url)
 
     let flag = false
-    /* for(let i in users){
-      if(users[i].token == token){
-        flag = true
-      }
-    } */
     let code = 0
     let data = null
     let msg = null
+
+    if(token){
+      for(let i in users){
+        if(users[i].token == token){
+          flag = true
+          data = users[i]
+        }
+      }
+    }
+    
     if(!flag) {
       code = 1001
       msg = 'Token 错误'

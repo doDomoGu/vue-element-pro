@@ -1,5 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
+import url from 'url'
 import { getToken } from '@/utils/authToken'
 import { AUTH_TOKEN_KEY } from '@/config/constantVariables'
 
@@ -9,7 +10,8 @@ if(process.env.VUE_APP_MOCK_ENABLE != 'TRUE'){
 }
 axios.interceptors.request.use(
   config => {
-    console.log(config) 
+    // console.log(' axios - request')
+    // console.log(config) 
     // qs.
     //鉴权 Token传参
     const token = getToken()
@@ -17,14 +19,18 @@ axios.interceptors.request.use(
 
       config.headers[AUTH_TOKEN_KEY] = token
 
-      /* if(process.env.VUE_APP_MOCK_ENABLE != 'TRUE'){
-        config.headers[AUTH_TOKEN_KEY] = token
-      }else{
-        if(config.data == undefined){
-          config.data = {}
-        }
-        config.data[AUTH_TOKEN_KEY] = token
-      } */
+      /* Mockjs 特殊处理 把 token数据 塞入url */
+      if(process.env.VUE_APP_MOCK_ENABLE == 'TRUE'){
+
+        const urlObj = url.parse(config.url)
+        // console.log(urlObj.query)
+        const urlSearchParams = new URLSearchParams('')
+        
+        // console.log(urlObj)
+        urlSearchParams.append(AUTH_TOKEN_KEY, token)
+        // console.log(urlSearchParams.toString())
+        config.url = urlObj.pathname + '?' + urlSearchParams.toString()
+      }
     }
 
     // POST传参序列化
@@ -42,6 +48,7 @@ axios.interceptors.request.use(
 //Mock 拦截请求打印response
 if(process.env.VUE_APP_MOCK_ENABLE == 'TRUE'){
   axios.interceptors.response.use((res) => {
+    console.log(' axios response')
     console.log(res.data)
     return res
   }, (error) => {
