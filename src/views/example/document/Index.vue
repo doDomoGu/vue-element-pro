@@ -33,7 +33,7 @@ export default {
   name: 'document',
   data(){
     return {
-      tabSelected: 'mock'
+      tabSelected: 'menu'
     }
   },
   created(){

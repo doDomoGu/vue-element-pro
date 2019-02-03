@@ -18,6 +18,7 @@ const RolesAdmin  = () => import(/* webpackChunkName: "routePage" */ '@/views/ex
 const RolesUser  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/roles/User')
 
 const Theme  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/Theme')
+const Icon = () => import(/* webpackChunkName: "routePage" */ '@/views/example/Icon')
 
 const DocumentMd  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/document/Index')
 /* example */
@@ -98,6 +99,13 @@ export default [
         component: Theme,
         name: 'theme',
         meta: { title: '主题皮肤' },
+        menu: { icon: 'fa-sliders'}
+      },
+      {
+        path: 'icon',
+        component: Icon,
+        name: 'icon',
+        meta: { title: '图标' },
         menu: { icon: 'fa-sliders'}
       }
     ]
