@@ -106,7 +106,7 @@ export default [
         component: Icon,
         name: 'icon',
         meta: { title: '图标' },
-        menu: { icon: 'fa-sliders'}
+        menu: { icon: 'picture'}
       }
     ]
   },
