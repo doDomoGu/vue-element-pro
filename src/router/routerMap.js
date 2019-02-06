@@ -19,6 +19,7 @@ const RolesUser  = () => import(/* webpackChunkName: "routePage" */ '@/views/exa
 
 const Theme  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/Theme')
 const Icon = () => import(/* webpackChunkName: "routePage" */ '@/views/example/Icon')
+const Table = () => import(/* webpackChunkName: "routePage" */ '@/views/example/table/Index')
 
 const DocumentMd  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/document/Index')
 /* example */
@@ -107,6 +108,13 @@ export default [
         name: 'icon',
         meta: { title: '图标' },
         menu: { icon: 'picture'}
+      },
+      {
+        path: 'table',
+        component: Table,
+        name: 'table',
+        meta: { title: '表格' },
+        menu: { icon: 'fa-table'}
       }
     ]
   },

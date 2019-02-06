@@ -3,6 +3,7 @@ import Mock from 'mockjs'
 
 import AuthAPI from './modules/auth'
 import UserAPI from './modules/user'
+import AddressAPI from './modules/address'
 
 // // 获取 mock.Random 对象
 // const Random = Mock.Random;
@@ -30,6 +31,7 @@ Mock.mock(/\/auth\/logout/, 'delete', AuthAPI.logout)
 Mock.mock(/\/auth\/check-token/, 'post', AuthAPI.checkToken)
 
 Mock.mock(/\/user\/info/, 'get', UserAPI.info)
+Mock.mock(/\/address\/list/, 'get', AddressAPI.list)
 
 
 // {"data":{"id":1,"name":"admin222","roles":["admin"]},"code":0,"msg":null}
