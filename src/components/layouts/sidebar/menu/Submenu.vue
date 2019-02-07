@@ -22,7 +22,7 @@ import vItem from './Item.vue'            //菜单项组件
 import vIcon from './Icon'                //图标组件
 
 export default {
-  name: 'menu-submenu',
+  name: 'v-submenu',
   components: { vIcon, vItem },
   props: {
     item: {

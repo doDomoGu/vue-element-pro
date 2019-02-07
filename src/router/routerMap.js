@@ -96,6 +96,38 @@ export default [
         ],
       },
       {
+        path: 'router',
+        component: BlankLayout,
+        redirect: { name: 'menu-1-1' },
+        meta: { title: '路由嵌套' },
+        menu: { icon: 'fa-users' },
+        children: [
+          {
+            path: 'menu-1',
+            component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-1/Index'),
+            redirect: { name: 'menu-1-1' },
+            meta: { title: '菜单1' },
+            menu: { icon: 'fa-user' },
+            children: [
+              {
+                path: 'menu-1-1',
+                component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-1/menu-1-1/Index'),
+                name: 'menu-1-1',
+                meta: { title: '菜单1-1' },
+                menu: { icon: 'fa-user' }
+              },
+            ]
+          },
+          {
+            path: 'menu-2',
+            component: RolesUser,
+            name: 'menu-2',
+            meta: { title: '菜单二' },
+            menu: { icon: 'fa-user-o' }
+          },
+        ],
+      },
+      {
         path: 'theme',
         component: Theme,
         name: 'theme',
