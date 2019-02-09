@@ -127,7 +127,7 @@ export default [
           },
           {
             path: 'menu-2',
-            component: RolesUser,
+            component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-2/Index'),
             name: 'menu-2',
             meta: { title: '菜单2' },
             menu: { icon: 'fa-user-o' }
