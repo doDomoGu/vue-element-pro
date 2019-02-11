@@ -130,42 +130,42 @@ export default [
             component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-2/Index'),
             name: 'menu-2',
             meta: { title: '菜单2' },
-            menu: { icon: 'fa-user-o' }
+            menu: { icon: 'fa-circle' }
           },
           {
             path: 'menu-3',
             component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-3/Index'),
             redirect: { name: 'menu-3-1' },
             meta: { title: '菜单3' },
-            menu: { icon: 'fa-user' },
+            menu: { icon: 'fa-circle' },
             children: [
               {
                 path: 'menu-3-1',
                 component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-3/menu-3-1/Index'),
                 name: 'menu-3-1',
                 meta: { title: '菜单3-1' },
-                menu: { icon: 'fa-user' }
+                menu: { icon: 'fa-circle' }
               },
               {
                 path: 'menu-3-2',
                 component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-3/menu-3-2/Index'),
                 redirect: { name: 'menu-3-2-1' },
                 meta: { title: '菜单3-2' },
-                menu: { icon: 'fa-user' },
+                menu: { icon: 'fa-circle' },
                 children: [
                   {
                     path: 'menu-3-2-1',
                     component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-3/menu-3-2/menu-3-2-1/Index'),
                     name: 'menu-3-2-1',
                     meta: { title: '菜单3-2-1' },
-                    menu: { icon: 'fa-user' }
+                    menu: { icon: 'fa-circle' }
                   },
                   {
                     path: 'menu-3-2-2',
                     component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-3/menu-3-2/menu-3-2-2/Index'),
                     name: 'menu-3-2-2',
                     meta: { title: '菜单3-2-2' },
-                    menu: { icon: 'fa-user' }
+                    menu: { icon: 'fa-circle' }
                   },
                 ]
               },
