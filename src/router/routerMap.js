@@ -16,6 +16,7 @@ const Page401  = () => import(/* webpackChunkName: "routePage" */ '@/components/
 /* example */
 const RolesAdmin  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/roles/Admin')
 const RolesUser  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/roles/User')
+const RolesUserP  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/roles/UserP')
 
 const Theme  = () => import(/* webpackChunkName: "routePage" */ '@/views/example/Theme')
 const Icon = () => import(/* webpackChunkName: "routePage" */ '@/views/example/Icon')
@@ -90,7 +91,14 @@ export default [
             path: 'user',
             component: RolesUser,
             name: 'user',
-            meta: { title: '普通用户', roles: [ ADMIN_ROLE, USER_ROLE ] },
+            meta: { title: '普通用户', roles: [ USER_ROLE ] },
+            menu: { icon: 'fa-user-o' }
+          },
+          {
+            path: 'userP',
+            component: RolesUserP,
+            name: 'userP',
+            meta: { title: '普通用户及以上', roles: [ ADMIN_ROLE, USER_ROLE ] },
             menu: { icon: 'fa-user-o' }
           },
         ],
@@ -99,29 +107,29 @@ export default [
         path: 'router',
         component: BlankLayout,
         redirect: { name: 'menu-1-1' },
-        meta: { title: '路由嵌套' },
-        menu: { icon: 'fa-users' },
+        meta: { title: '路由(菜单)嵌套' },
+        menu: { icon: 'fa-circle' },
         children: [
           {
             path: 'menu-1',
             component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-1/Index'),
             redirect: { name: 'menu-1-1' },
             meta: { title: '菜单1' },
-            menu: { icon: 'fa-user' },
+            menu: { icon: 'fa-circle' },
             children: [
               {
                 path: 'menu-1-1',
                 component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-1/menu-1-1/Index'),
                 name: 'menu-1-1',
                 meta: { title: '菜单1-1' },
-                menu: { icon: 'fa-user' }
+                menu: { icon: 'fa-circle' }
               },
               {
                 path: 'menu-1-2',
                 component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-1/menu-1-2/Index'),
                 name: 'menu-1-2',
                 meta: { title: '菜单1-2' },
-                menu: { icon: 'fa-user' }
+                menu: { icon: 'fa-circle' }
               },
             ]
           },

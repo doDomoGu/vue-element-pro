@@ -1,6 +1,6 @@
 <template>
   <div>
-    user
+    这是普通用户才能看到的页面
   </div>
 </template>
 

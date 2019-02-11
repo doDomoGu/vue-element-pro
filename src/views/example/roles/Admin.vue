@@ -1,6 +1,6 @@
 <template>
   <div>
-    admin
+    这是管理员才能看到的页面
   </div>
 </template>
 
