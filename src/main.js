@@ -5,8 +5,8 @@ import store from '@/store'
 
 import '@/assets/index.css'
 
-import '@/assets/custom-theme/purple/styles/index.css' 
-import '@/assets/custom-theme/teal/styles/index.css' 
+import '@/assets/custom-theme/purple/index.min.css' 
+import '@/assets/custom-theme/teal/index.min.css' 
 
 /* element-ui */
 import '@/config/element-variables.scss'
