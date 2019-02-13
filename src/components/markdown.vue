@@ -10,7 +10,7 @@ export default {
   name: 'Markdown',
 }
 </script>
-<style scoped>
+<style lang='scss' scoped>
 .markdown-body {
   
   box-sizing: border-box;
@@ -19,5 +19,12 @@ export default {
   padding: 20px;
   margin-top: 10px;
   background:#fff;
+
+  /deep/ blockquote {
+    border-left: 6px solid #ccc;
+    padding: 10px;
+    background: #eee;
+  }
 }
+
 </style>
