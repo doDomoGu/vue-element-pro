@@ -10,9 +10,14 @@
         <md-mock />
       </markdown>
     </el-tab-pane>
-    <el-tab-pane label="主题皮肤" name="theme">
+    <el-tab-pane label="自定义主题" name="theme">
       <markdown>
         <md-theme />
+      </markdown>
+    </el-tab-pane>
+    <el-tab-pane label="动态皮肤" name="theme-2">
+      <markdown>
+        <md-theme2 />
       </markdown>
     </el-tab-pane>
   </el-tabs>
@@ -22,13 +27,15 @@ import markdown from '@/components/markdown'
 import mdMenu from './Menu.md'
 import mdMock from './Mock.md'
 import mdTheme from './Theme.md'
+import mdTheme2 from './Theme-2.md'
 
 export default {
   components: { 
     markdown,
     mdMenu,
     mdMock,
-    mdTheme
+    mdTheme,
+    mdTheme2
   },
   name: 'document',
   data(){

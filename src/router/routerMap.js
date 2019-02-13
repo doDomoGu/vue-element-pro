@@ -185,7 +185,7 @@ export default [
         path: 'theme',
         component: Theme,
         name: 'theme',
-        meta: { title: '主题皮肤' },
+        meta: { title: '动态主题皮肤' },
         menu: { icon: 'fa-sliders'}
       },
       {
