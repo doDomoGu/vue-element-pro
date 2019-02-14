@@ -15,7 +15,8 @@ export default {
 
 <style scoped>
 .container {
+  margin:20px;
   padding:20px;
-  background:rgb(146, 106, 106);
+  background:rgb(186, 101, 194);
 }
 </style>

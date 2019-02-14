@@ -72,6 +72,8 @@ pre {
   color:#fff;
   background:#606266;
   padding:10px;
+  font-size:14px;
+  line-height:24px;
 }
 
 </style>
