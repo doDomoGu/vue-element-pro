@@ -27,7 +27,7 @@ export default {
         }
       }else{
         //没有配置项 返回默认配置
-        return ['el-icon-'+this.defaultIcon]
+        return ['el-icon-'+this.defaultIcon, 'hidden']
       }
     }
   }
@@ -40,5 +40,8 @@ export default {
   text-align: center;
   font-size: 18px;
   vertical-align: middle;
+}
+.hidden {
+  color: transparent!important;
 }
 </style>

@@ -108,28 +108,25 @@ export default [
         component: BlankLayout,
         redirect: { name: 'menu-1-1' },
         meta: { title: '路由(菜单)嵌套' },
-        menu: { icon: 'fa-circle' },
+        menu: { icon: 'fa-list' },
         children: [
           {
             path: 'menu-1',
             component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-1/Index'),
             redirect: { name: 'menu-1-1' },
             meta: { title: '菜单1' },
-            menu: { icon: 'fa-circle' },
             children: [
               {
                 path: 'menu-1-1',
                 component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-1/menu-1-1/Index'),
                 name: 'menu-1-1',
                 meta: { title: '菜单1-1' },
-                menu: { icon: 'fa-circle' }
               },
               {
                 path: 'menu-1-2',
                 component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-1/menu-1-2/Index'),
                 name: 'menu-1-2',
                 meta: { title: '菜单1-2' },
-                menu: { icon: 'fa-circle' }
               },
             ]
           },
@@ -138,42 +135,36 @@ export default [
             component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-2/Index'),
             name: 'menu-2',
             meta: { title: '菜单2' },
-            menu: { icon: 'fa-circle' }
           },
           {
             path: 'menu-3',
             component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-3/Index'),
             redirect: { name: 'menu-3-1' },
             meta: { title: '菜单3' },
-            menu: { icon: 'fa-circle' },
             children: [
               {
                 path: 'menu-3-1',
                 component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-3/menu-3-1/Index'),
                 name: 'menu-3-1',
                 meta: { title: '菜单3-1' },
-                menu: { icon: 'fa-circle' }
               },
               {
                 path: 'menu-3-2',
                 component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-3/menu-3-2/Index'),
                 redirect: { name: 'menu-3-2-1' },
                 meta: { title: '菜单3-2' },
-                menu: { icon: 'fa-circle' },
                 children: [
                   {
                     path: 'menu-3-2-1',
                     component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-3/menu-3-2/menu-3-2-1/Index'),
                     name: 'menu-3-2-1',
                     meta: { title: '菜单3-2-1' },
-                    menu: { icon: 'fa-circle' }
                   },
                   {
                     path: 'menu-3-2-2',
                     component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/router/menu-3/menu-3-2/menu-3-2-2/Index'),
                     name: 'menu-3-2-2',
                     meta: { title: '菜单3-2-2' },
-                    menu: { icon: 'fa-circle' }
                   },
                 ]
               },
