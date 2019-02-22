@@ -1,7 +1,7 @@
 export default [
   {
     id: 10001,
-    username: 'admin',
+    account: 'admin',
     password: 'admin',
     name: 'Admin',
     roles: ['admin'],
@@ -11,9 +11,9 @@ export default [
   },
   {
     id  : 10002,
-    username: 'user',
+    account: 'user',
     password: 'user',
-    name: 'User123',
+    name: 'User',
     roles: ['user'],
     token: 'user_123',
     introduction: '我是普通用户',

@@ -1,8 +1,8 @@
 import axios from '@/utils/axios'
 
-export function login(username, password) {
+export function login(account, password) {
   const data = {
-    username,
+    account,
     password,
   }
   return axios.post(
@@ -21,16 +21,15 @@ export function checkToken(token) {
   )
 }
 
+export function getUserInfo() {
+  return axios.get(
+    '/auth/user-info'
+  )
+}
+
 export function logout() {
   return axios.delete(
     '/auth/logout'
   )
 }
 
-// export function getUserInfo(token) {
-//   return request({
-//     url: '/user/info',
-//     method: 'get',
-//     params: { token },
-//   })
-// }

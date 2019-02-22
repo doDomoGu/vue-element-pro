@@ -57,8 +57,8 @@ export default {
             ])
             .then( () => {
               if( this.$store.getters["auth/loginState"]){
-                this.$store.dispatch('user/GetInfo').then(() => {
-                  if(this.$store.getters['user/id'] > -1){
+                this.$store.dispatch('auth/GetInfo').then(() => {
+                  if(Object.keys(this.$store.getters['auth/userInfo']).length > 0){
                     this.$router.push({ name: "home" })
                   }else{
                     this.$alert('获取用户信息失败', "消息提示", {

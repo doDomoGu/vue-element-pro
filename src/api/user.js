@@ -1,10 +1,10 @@
 import axios from '@/utils/axios'
 
-export function getInfo() {
+/* export function getInfo() {
   return axios.get(
     '/user/info'
   )
-}
+} */
 
 /* export function logout() {
   return axios.delete(

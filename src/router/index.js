@@ -37,7 +37,7 @@ const authTrue = function (to, from, next) {
     next({ name : 'home' })
   } else {
     if(to.meta.roles) {
-      if(hasPermission(store.getters['user/roles'], to.meta.roles)){
+      if(hasPermission(store.getters['auth/userInfo']['roles'], to.meta.roles)){
         next()
       } else {
          //观测者权限 首页跳转到report
@@ -77,8 +77,8 @@ router.beforeEach((to, from, next) => {
       store.dispatch('auth/CheckToken', token).then(() => {
         if (store.getters['auth/loginState']) {
           // 验证token成功
-          store.dispatch('user/GetInfo').then(() => {
-            if(store.getters['user/id'] > -1){
+          store.dispatch('auth/GetInfo').then(() => {
+            if(Object.keys(store.getters['auth/userInfo']).length > 0){
               //获取用户信息成功  
               authTrue(to, from, next)
             }else{

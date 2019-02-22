@@ -15,7 +15,7 @@ export default {
       /* const s = filterRouterMap(routerMap, this.$store.getters['user/roles'])
       console.log(s)
       return s */
-      return filterRouterMap(routerMap, this.$store.getters['user/roles'])
+      return filterRouterMap(routerMap, this.$store.getters['auth/userInfo']['roles'])
     },
     collapse() {
       return this.$store.getters['common/collapse']

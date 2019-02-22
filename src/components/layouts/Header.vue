@@ -33,7 +33,7 @@ export default {
       return this.$store.getters['common/collapse']
     },
     username() {
-      return this.$store.getters['user/name']
+      return this.$store.getters['auth/userInfo']['name']
     }
   },
   mounted(){

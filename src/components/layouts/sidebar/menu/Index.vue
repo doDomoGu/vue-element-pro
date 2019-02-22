@@ -37,6 +37,6 @@ export default {
 .el-menu {
   height: 100%;
   width: 100%;
-  border: none;
+  border: none!important;
 }
 </style>
