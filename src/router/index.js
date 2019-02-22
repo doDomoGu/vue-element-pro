@@ -74,7 +74,7 @@ router.beforeEach((to, from, next) => {
     const token = getToken() // localStorage读取token
     if (token) {
       // 未登录 有token存在， 发送token验证请求
-      store.dispatch('auth/CheckToken', token).then(() => {
+      store.dispatch('auth/CheckToken').then(() => {
         if (store.getters['auth/loginState']) {
           // 验证token成功
           store.dispatch('auth/GetInfo').then(() => {

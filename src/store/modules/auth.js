@@ -1,5 +1,5 @@
 import { login, logout, checkToken, getUserInfo } from '@/api/auth'
-import { /* getToken, */ setToken, removeToken } from '@/utils/authToken'
+import { getToken, setToken, removeToken } from '@/utils/authToken'
 
 const state = {
   loginState: false,
@@ -33,19 +33,20 @@ const actions = {
         })
     })
   },
-  CheckToken ({ commit }, token) {
+  CheckToken ({ commit }) {
     return new Promise((resolve, reject) => {
-      checkToken(token)
+      checkToken(getToken())
         .then((res) => {
           if ( res.data ){
             const data = res.data
             if ( data.code === 0) {
-              setToken(token)
+              // setToken(token)
               commit('setLoginState')
             } else {
             // 提交的token 错误
               removeToken()
               commit('removeLoginState')
+              // commit('removeUserInfo')
             }
             resolve()
           }else{
