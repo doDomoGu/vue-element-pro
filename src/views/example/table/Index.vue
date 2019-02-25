@@ -3,18 +3,18 @@
       :data="tableData"
       style="width: 100%">
       <el-table-column
-        prop="date"
-        label="日期"
+        prop="account"
+        label="账号"
         width="180">
       </el-table-column>
       <el-table-column
         prop="name"
-        label="姓名"
+        label="名称"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="address"
-        label="地址">
+        prop="role_name"
+        label="角色">
       </el-table-column>
     </el-table>
 </template>
@@ -23,11 +23,13 @@
 export default {
   computed:{
     tableData(){
-      return this.$store.getters['address/list']
+      return this.$store.getters['user/list']
     }
   },
   created(){
-    this.$store.dispatch('address/GetList')
+    this.$store.dispatch('user/GetList')
+  },
+  methods:{
   }
 }
 </script>
