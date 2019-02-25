@@ -1,25 +1,12 @@
 <template>
   <el-tabs tab-position="left" v-model="tabSelected">
-    <el-tab-pane label="侧边栏菜单" name="menu">
-      <markdown>
-        <md-menu />
-      </markdown>
-    </el-tab-pane>
-    <el-tab-pane label="Mockjs" name="mock">
-      <markdown>
-        <md-mock />
-      </markdown>
-    </el-tab-pane>
-    <el-tab-pane label="自定义主题" name="theme">
-      <markdown>
-        <md-theme />
-      </markdown>
-    </el-tab-pane>
-    <el-tab-pane label="动态皮肤" name="theme-2">
-      <markdown>
-        <md-theme2 />
-      </markdown>
-    </el-tab-pane>
+    <template v-for="item in menuList">
+      <el-tab-pane :label="item.label" :name="item.name">
+        <markdown>
+          <component v-bind:is="'md-' + item.name"></component>
+        </markdown>
+      </el-tab-pane>
+    </template>
   </el-tabs>
 </template>
 <script>
@@ -40,6 +27,13 @@ export default {
   name: 'document',
   data(){
     return {
+      menuList : [
+        { name: 'menu' , label:'侧边栏菜单' },
+        { name: 'mock' , label:'Mock(模拟数据)' },
+        { name: 'theme' , label:'自定义主题' },
+        { name: 'theme-2' , label:'动态皮肤' },
+      ],
+      s : mdMock,
       tabSelected: 'menu'
     }
   },
