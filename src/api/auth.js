@@ -11,19 +11,19 @@ export function login(account, password) {
   )
 }
 
-export function checkToken(token) {
+export function checkToken(key) {
   const data = {
-    token
+    key
   }
   return axios.post(
-    '/auth/check-token',
+    '/auth/token-verification',
     data
   )
 }
 
 export function getUserInfo() {
   return axios.get(
-    '/auth/user-info'
+    '/auth/info'
   )
 }
 
