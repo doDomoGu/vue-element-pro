@@ -1,7 +1,7 @@
 <template>
   <el-tabs tab-position="left" v-model="tabSelected">
     <template v-for="item in menuList">
-      <el-tab-pane :label="item.label" :name="item.name">
+      <el-tab-pane :label="item.label" :name="item.name" :key="item.name">
         <markdown>
           <component v-bind:is="'md-' + item.name"></component>
         </markdown>
