@@ -2,7 +2,7 @@ import { return_format, getToken } from '../utils'
 import users from '../models/user'
 
 export default {
-  info: config => {
+  list: config => {
     const token = getToken(config.url)
 
     let flag = false
@@ -14,7 +14,6 @@ export default {
       for(let i in users){
         if(users[i].token == token){
           flag = true
-          data = users[i]
         }
       }
     }
@@ -22,6 +21,11 @@ export default {
     if(!flag) {
       code = 1001
       msg = 'Token 错误'
+    }else{
+      data = {
+        list: users,
+        total: users.length
+      }
     }
     return return_format(code, data, msg)
   },

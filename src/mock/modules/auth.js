@@ -5,10 +5,10 @@ import users from '../models/user'
 
 export default {
   login: config => {
-    const { username, password } = qs.parse(config.body)
+    const { account, password } = qs.parse(config.body)
     let user = null
     for(let i in users){
-      if(users[i].username == username){
+      if(users[i].account == account){
         user = users[i]
       }
     }
@@ -19,8 +19,7 @@ export default {
     if(user){
       if(user.password == password){
         data = {
-          "userId": user.id,
-          "token" : user.token
+          "api_key" : user.token
         }
       }else{
         code = 1001
@@ -32,11 +31,11 @@ export default {
     }
     return return_format(code, data, msg)
   },
-  checkToken: config => {
-    const { token } = qs.parse(config.body)
+  tokenVerification: config => {
+    const { key } = qs.parse(config.body)
     let flag = false
     for(let i in users){
-      if(users[i].token == token){
+      if(users[i].token == key){
         flag = true
       }
     }
@@ -50,6 +49,29 @@ export default {
     return return_format(code, data, msg)
   },
   logout: config => {
+    const token = getToken(config.url)
+
+    let flag = false
+    let code = 0
+    let data = null
+    let msg = null
+
+    if(token){
+      for(let i in users){
+        if(users[i].token == token){
+          flag = true
+          data = users[i]
+        }
+      }
+    }
+    
+    if(!flag) {
+      code = 1001
+      msg = 'Token 错误'
+    }
+    return return_format(code, data, msg)
+  },
+  info: config => {
     const token = getToken(config.url)
 
     let flag = false

@@ -3,7 +3,6 @@ import Mock from 'mockjs'
 
 import AuthAPI from './modules/auth'
 import UserAPI from './modules/user'
-import AddressAPI from './modules/address'
 
 // // 获取 mock.Random 对象
 // const Random = Mock.Random;
@@ -28,10 +27,10 @@ import AddressAPI from './modules/address'
 // Mock.mock('/news/index', 'post', produceNewsData);
 Mock.mock(/\/auth\/login/, 'post', AuthAPI.login )
 Mock.mock(/\/auth\/logout/, 'delete', AuthAPI.logout)
-Mock.mock(/\/auth\/check-token/, 'post', AuthAPI.checkToken)
+Mock.mock(/\/auth\/token-verification/, 'post', AuthAPI.tokenVerification)
+Mock.mock(/\/auth\/info/, 'get', AuthAPI.info)
 
-Mock.mock(/\/user\/info/, 'get', UserAPI.info)
-Mock.mock(/\/address\/list/, 'get', AddressAPI.list)
+Mock.mock(/\/user\/list/, 'get', UserAPI.list)
 
 
 // {"data":{"id":1,"name":"admin222","roles":["admin"]},"code":0,"msg":null}
