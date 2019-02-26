@@ -11,9 +11,12 @@ import { getToken } from '@/utils/authToken' // getToken from cookie
 
 Vue.use(Router)
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 // 声明router对象
 const router = new Router({
   mode: 'history', // require service support
+  base: isProduction && process.env.VUE_APP_PUBLIC_PATH ? process.env.VUE_APP_PUBLIC_PATH : '/', 
   scrollBehavior: () => ({ y: 0 }),
   routes: routerMap
 })

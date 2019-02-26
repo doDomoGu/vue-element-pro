@@ -1,9 +1,10 @@
-// const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 // const markdownRender = require('markdown-it')()
 
 module.exports = {
+  publicPath: isProduction && process.env.VUE_APP_PUBLIC_PATH ? process.env.VUE_APP_PUBLIC_PATH : '/', 
   // api接口 基础url地址
-  //API_BASEURL: isProduction ? '/' : '"http://chudian.com/api/v1"'
+  // API_BASEURL: isProduction ? '/' : '"http://chudian.com/api/v1"'
   // productionSourceMap : false,
   /* chainWebpack: config => {
     config.module
