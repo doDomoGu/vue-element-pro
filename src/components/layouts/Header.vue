@@ -8,7 +8,7 @@
       
       <div class="user-action" >
         <!-- 用户头像 -->
-        <img class="user-avatar" src="/user_avatar.png">
+        <img class="user-avatar" src="@/assets/user_avatar.png">
         <!-- 下拉菜单 -->
         <el-dropdown class="user-name" trigger="click" @command="handleCommand">
             <span class="el-dropdown-link">
