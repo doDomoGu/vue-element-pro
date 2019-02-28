@@ -3,6 +3,7 @@ import Mock from 'mockjs'
 
 import AuthAPI from './modules/auth'
 import UserAPI from './modules/user'
+import TreenodeAPI from './modules/treenode'
 
 // // 获取 mock.Random 对象
 // const Random = Mock.Random;
@@ -31,6 +32,8 @@ Mock.mock(/\/auth\/token-verification/, 'post', AuthAPI.tokenVerification)
 Mock.mock(/\/auth\/info/, 'get', AuthAPI.info)
 
 Mock.mock(/\/user\/list/, 'get', UserAPI.list)
+
+Mock.mock(/\/treenode/, 'get', TreenodeAPI.data)
 
 
 // {"data":{"id":1,"name":"admin222","roles":["admin"]},"code":0,"msg":null}

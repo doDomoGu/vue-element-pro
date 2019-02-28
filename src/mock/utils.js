@@ -34,3 +34,8 @@ export function checkToken(_url) {
   
   return flag
 }
+
+export function getParams(_url){
+  const urlObj = url.parse(_url)
+  return qs.parse(urlObj.query)
+}
