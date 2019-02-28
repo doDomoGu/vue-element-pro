@@ -192,6 +192,21 @@ export default [
         name: 'table',
         meta: { title: '表格' },
         menu: { icon: 'fa-table'}
+      },
+      {
+        path: 'components',
+        component: BlankLayout,
+        redirect: { name: 'com_tree' },
+        meta: { title: '组件' },
+        menu: { icon: 'fa-list' },
+        children: [
+          {
+            path: 'tree',
+            component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/components/Tree'),
+            name: 'com_tree',
+            meta: { title: '树形结构' },
+          },
+        ]
       }
     ]
   },
