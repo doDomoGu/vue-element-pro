@@ -206,6 +206,12 @@ export default [
             name: 'com_tree',
             meta: { title: '树形结构' },
           },
+          {
+            path: 'tree2',
+            component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/components/Tree2'),
+            name: 'com_tree2',
+            meta: { title: '树形结构2' },
+          },
         ]
       }
     ]
