@@ -17,7 +17,6 @@
       :default-expanded-keys="['root']"
       :def2222ault-expand-all="true"
       :expand-on-click-node="false"
-      :check-on-click-node="true"
       >
     </el-tree>
   </div>
