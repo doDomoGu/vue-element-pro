@@ -169,6 +169,7 @@ export default {
 
 .el-tree >>> .el-tree-node__label {
   color: #333;
+  line-height:22px;
 }
 
 .el-tree >>> .el-pagination {
