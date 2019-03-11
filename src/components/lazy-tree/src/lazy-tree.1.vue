@@ -1,158 +1,224 @@
 <template>
   <div>
-    <!--<div> pages: {{this.pages}}</div>
-    <div> pagesOld: {{this.pagesOld}}</div> -->
-    <div> {{this.checkedNodes}} </div>
     <el-tree
       ref='tree'
       :props="props"
-      :load="loadNode"
-      :lazy=true
-      :show-checkbox="showCheckbox"
-      empty-text='没有资源'
-      @check-change="checkNodes" 
-      :current-node-key="100001"
-      node-key="id"
+      @node-expand="onNodeExpand"
+      @node-click="onNodeClick"
+      @node-collapse="onNodeCollapse"
+      @check-change="onCheckChange" 
+      :show-checkbox="isShowCheckbox"
+      :empty-text='emptyText'
+      :current-node-key="currentNodeKey"
+      :node-key="nodeKey"
       :render-content="renderContent"
-      :default-expanded-keys="['root']"
-      :def2222ault-expand-all="true"
-      :expand-on-click-node="false"
+      :expand-on-click-node="isExpandOnClickNode"
+      :data="treeData"
       >
     </el-tree>
   </div>
 </template>
 
 <script>
+import * as TreenodeApi from '@/api/treenode'
 export default {
   name: 'LazyTree',
-  props: {
-    loadNode: Function,
-    getData: Function,
-    renderContent: Function,
-    showCheckbox: Boolean,
-    props: {
-      default() {
-        return {
-          children: 'children',
-          label: 'label',
-          disabled: 'disabled',
-          isLeaf: 'isLeaf'
-        };
-      }
-    },
-    pages: Object,
-  },
   data() {
     return {
-      treeData: [],
-      pagesOld: {},
-      checkedNodes: []
-    }
+      isShowCheckbox: false,
+      emptyText: '没有资源',
+      currentNodeKey: 100,
+      nodeKey: 'id',
+      isExpandOnClickNode: false,
+      props: {
+        children: 'children',
+        label: 'label',
+        disabled: 'disabled',
+        isLeaf: 'isLeaf'
+      },
+      treeData:[],
+      pagination: {},
+    };
   },
   computed:{
   },
-  watch: {
-    pages:{
-      // const that = this
-      handler(val) {
-        /* console.log(55)
-        console.log('pages:' + JSON.stringify(val))
-        console.log('pagesOld:' + JSON.stringify(this.pagesOld)) */
-
-        let nodeId = null
-        // let curPage = null
-
-        for(let i in val){
-          if(nodeId != null){
-            continue
-          }
-
-          /* console.log('--------')
-          console.log('id: ' + i)
-          console.log('newPage: ' + val[i]) */
-          let oldPage = null
-          if(this.pagesOld.hasOwnProperty(i)){
-            oldPage = this.pagesOld[i]
-          }
-          // console.log('oldPage: ' + oldPage)
-          if(oldPage!=null && oldPage !=val[i]){
-            nodeId = i
-            // curPage = val[i]
-          }
-        }
-
-        if(nodeId != null){
-          const node = this.$refs.tree.getNode(nodeId)
-          /* console.log(84)
-          console.log(node.data) */
-          this.getData(node).then(r=>{
-            this.$refs.tree.updateKeyChildren(nodeId,r)
-          })
-        }
-        // console.log('========')
-        // console.log(nodeId)
-        // console.log(curPage)
-
-
-
-
-        this.pagesOld = JSON.parse(JSON.stringify(val))
-
-        /* if(oldVal && !(val.id == oldVal.id && val.page == oldVal.page)){
-          const node = this.$refs.tree.getNode(val.id)
-          // console.log(this.loadNode(node))
-         }*/
-
-      
-
-      // this.handleSelectChange(this.node.checked, val);
-      },
-      deep: true
-    },
-  },
   mounted(){
-
-    // this.getData()
-    this.checkNodes()
-    // setTimeout(()=>{
-    //   const n = this.$refs.tree.getNode(0)
-    //   // n.expanded = true
-    // console.log(n)
-    // },1000)
-    
-
+    this.addChildren()
   },
   methods: {
-    
+    addChildren(node){
+      console.log('  ')
+      console.log('addChildren 开始')
+      const start = (new Date()).getTime()
+
+      const page_size = 10
+      let params = {}
+      if(node && node.data){
+        params.p_type = node.data.type
+        params.p_id = node.data.id
+      }
+      params.page_size = page_size
+      params.data_type = 'big'
+
+      TreenodeApi.get(params).then((res) => {
+        if ( res.data ){
+          if ( res.data.code === 0) {
+            const _data = res.data.data
+            console.log(_data)
+            console.log('tree 结束  耗时: ' + ( (new Date()).getTime() - start ) + '毫秒')
+            
+            if(!node){
+              const tree = this.$refs.tree
+              const rootData = {
+                id: 'root',
+                label: '广告资源',
+                page_total: _data.page_total,
+                childrenCount: _data.total,
+                page_size: _data.page_size,
+              }
+              tree.append(rootData)
+              // const RootNode = tree.getNode('root')
+              // console.log(RootNode)
+              this.$refs.tree.updateKeyChildren('root', _data.list)
+            }else{
+              console.log(86)
+              this.$refs.tree.updateKeyChildren(node.id,_data.list)
+            }
+
+           /*  for(let i=0; i<_data.list.length;i++){
+              _data.list[i].
+            } */
+            // console.log(113)
+            // console.log(this.$refs)
+          }
+        }
+      })
+    },
+    onNodeClick(data, node, store){
+      console.log('')
+      console.log('onNodeClick')
+      console.log(data)
+      console.log(data[this.nodeKey])
+      console.log(node)
+      console.log(store)
+      //updateKeyChildren
+      
+    },
+    onNodeExpand(data, node, store){
+      console.log('')
+      console.log('onNodeExpand')
+      console.log(data)
+      console.log(data[this.nodeKey])
+      console.log(node)
+      console.log(store)
+    },
+    onNodeCollapse(data, node, store){
+      console.log('')
+      console.log('onNodeCollapse')
+      console.log(data)
+      console.log(data[this.nodeKey])
+      console.log(node)
+      console.log(store)
+    },
+    onCheckChange(){
+      console.log('onCheckChange')
+    },
+    renderContent(h, { node, data}){
+/*       console.log(' ')
+      console.log('renderContent 开始')
+      console.log(h)
+      console.log(node)
+      console.log(JSON.stringify(data)) */
+      /* 图标 */
+      const iconList = {
+        'C':'campaign',
+        'O':'order',
+        'S':'solution',
+        'B':'banner'
+      }
+      let icon
+      if(data && iconList[data.type]){
+        const iconSrc = require('@/assets/icon/' + iconList[data.type] +'-icon.png')
+        icon = iconSrc ? <img class="el-tree-node__label-img" src={iconSrc} /> : ''
+      }
+
+      /* 分页 */
+      let pagination 
+      let childrenCount
+      if(data && data.childrenCount!=undefined){
+        childrenCount = ' ('+data.childrenCount+')'
+        if(data.page_total>1 && node.expanded){
+          pagination = <el-pagination 
+            small
+            ref={'page_'+node.id}
+            layout="prev, pager, next"
+            page-size={data.page_size}
+            total={data.childrenCount}
+            on-current-change={this.s}
+            pager-count={5}>
+          </el-pagination>
+        }
+      }
+      // console.log('renderContent 结束')
+
+      return <span class="el-tree-node__label">
+      <span>{ icon }{ node.label } {childrenCount} </span> 
+      {pagination}
+      </span>
+    },
+    s(page,a,b){
+      console.log(page)
+      console.log(a)
+      console.log(b)
+    },
     checkNodes(){
 
-      this.checkedNodes = this.$refs.tree.getCheckedKeys();
+      this.node_checked = this.$refs.tree.getCheckedKeys();
     },
+    
     loadNode2(node, resolve) {
+      console.log('  ')
+      console.log('loadNode')
+      console.log('tree 开始' )
 
       
+      console.log(node) 
+      console.log('node_data: ' + JSON.stringify(node.data))
+      console.log('node_id: ' + node.id) 
+      console.log('node_level: ' + node.level) 
+      //console.log(this.$refs.tree)
+      
+      const start = (new Date()).getTime()
+
       if (node.level === 0) {
-        return resolve([{ name: 'region' },{name: 'region-2'}]);
-      }
-      if (node.level == 2 ) return resolve([{name: 'zone2-1'},{name: 'zone2-2'}]);
-      if (node.level == 3 ) return resolve([{name: 'zone3',leaf: true}]);
-
-      if (node.level == 1 ){
-        setTimeout(() => {
-          const data = [{
-            name: 'leaf',
-            leaf: true
-          }, {
-            name: 'zone',
-          }];
-
-          resolve(data);
-        }, 500);
+        return resolve([
+          {
+            id: 0,
+            label : '广告资源',
+            disabled: true
+          }
+        ]);
       }
 
-      if( node.level > 3) {
-        return resolve([])
+      let params = {}
+      if(node.data){
+        params.type = node.data.type
+        params.p_id = node.data.id
       }
+      
+
+      params.data_type = 'middle'
+
+      this.$store.dispatch('treenode/Get',params).then(()=>{
+        
+
+        console.log('tree 结束  耗时: ' + ( (new Date()).getTime() - start ) + '毫秒')
+
+      
+        return resolve(this.$store.getters['treenode/data'])
+        //this.$refs.tree.updateKeyChildren(0,this.$store.getters['treenode/data'])
+        
+      })
     }
   }
 }
@@ -169,7 +235,6 @@ export default {
 
 .el-tree >>> .el-tree-node__label {
   color: #333;
-  line-height:22px;
 }
 
 .el-tree >>> .el-pagination {

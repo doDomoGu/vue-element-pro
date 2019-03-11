@@ -1,23 +1,11 @@
 <template>
   <div>
-    <!-- <section>
-      资源类型 
-      <el-select v-model="resourceTypeValue" placeholder="请选择" >
-        <el-option v-for="item in resourceTypeOptions" :key="item.value" :label="item.label" :value="item.value" >
-        </el-option>
-      </el-select>
-    </section> -->
-    <!-- <section>
-      选择的节点：{{node_checked}}
-    </section> -->
     <lazy-tree 
       :render-content="renderContent" 
       :load-node="loadNode"
-      :get-data="getData"
-      :pages="pages"
-      :show-checkbox="showCheckbox"
     />
   </div>
+  
 </template>
 
 <script>
@@ -37,130 +25,120 @@ export default {
         { value: 'S', label: '投放' },
         { value: 'B', label: '创意' }
       ],
-      resourceTypeValue: 'C',
-      page_size: 10, //每页显示数
-      pages:{}, //储存分页信息
-      showCheckbox: true,
+      resourceTypeValue: 'C'
     };
+  },
+  computed:{
   },
   mounted(){
   },
   methods: {
-    //重写 标签项显示内容
+    //label 增加图标字样
     renderContent(h, { node, data}){
+      console.log(' ')
+      console.log('renderContent 开始')
+      console.log(h)
+      console.log(node)
+      console.log(JSON.stringify(data))
+      const iconList = {
+        'C':'campaign',
+        'O':'order',
+        'S':'solution',
+        'B':'banner'
+      }
       let icon
-      let childrenCount
+      if(data && iconList[data.type]){
+        const iconSrc = require('@/assets/icon/' + iconList[data.type] +'-icon.png')
+        icon = iconSrc ? <img class="el-tree-node__label-img" src={iconSrc} /> : ''
+      }
       let pagination 
-
-      if(data){
-        if(data.type){
-          /* 增加icon显示 */
-          const iconMap = {
-            'C':'campaign',
-            'O':'order',
-            'S':'solution',
-            'B':'banner'
-          }
-          if(iconMap[data.type]){
-            const iconSrc = require('@/assets/icon/' + iconMap[data.type] +'-icon.png')
-            if(iconSrc){
-              icon =  <img class="el-tree-node__label-img" src={iconSrc} />
-            }
-          }
-        }
-        /* 增加子节点总数显示 */
-        if(data.childrenCount){
-          childrenCount = '('+parseInt(data.childrenCount)+')'
-        }
-
-        /* 分页组件，大于一页且节点被展开时显示 */
-        if(data.total_page > 1 && node.expanded){
+      let childrenCount
+      if(data && data.childrenCount!=undefined){
+        childrenCount = ' ('+data.childrenCount+')'
+        if(data.page_total>1){
           pagination = <el-pagination
             small
             layout="prev, pager, next"
             page-size={data.page_size}
             total={data.childrenCount}
-            current-page={data.current_page}
-            {...{on:{'update:currentPage': val =>  data.current_page = val}}}
+            on-current-change = {this.s}
             pager-count={5}>
           </el-pagination>
-          /* 分页的current_page改变重新获取子节点数据 */
-          this.$set(this.pages,data.id,data.current_page)
         }
       }
-
+      console.log('renderContent 结束')
       return <span class="el-tree-node__label">
-        <span>{ icon }{ node.label } { childrenCount } </span> 
-        { pagination }
+      <span>{ icon }{ node.label } {childrenCount} </span> 
+      {pagination}
       </span>
     },
-    getData(node){
-      let params = {}
-      if(node.data){
-        if(node.data.type){
-          params.p_type = node.data.type
-          params.p_id = node.data.id
-        }
-        params.page = node.data.current_page
-      }
-      
-      params.page_size = this.page_size
-      
-      params.data_type = 'big'
-
-      let data = []
-      return new Promise( resolve => {
-        TreenodeApi.get(params).then( res => {
-          if ( res.data ){
-            if (res.data.code === 0) {
-              
-            const _data = res.data.data  
-
-              if (node.level === 0) {
-                return resolve([
-                  {
-                    id: 'root',
-                    label : '广告资源',
-                    disabled: true,
-                    total_page: _data.total_page,
-                    current_page: _data.current_page,
-                    page_size: _data.page_size,
-                    childrenCount: _data.total
-                  }
-                ]);
-              }else if (node.level > 1) {
-                node.data.total_page = _data.total_page
-                node.data.childrenCount = _data.total
-                node.data.page_size= _data.page_size
-                node.data.current_page= _data.current_page
-              }
-
-              data = _data.list
-            } 
-          }
-          return resolve(data)
-        })
-      })
+    s(a,b,c){
+      console.log(this)
+      console.log(a)
+      console.log(b)
+      console.log(c)
     },
     loadNode(node, resolve) {
-      /* console.log('  ')
-      console.log('loadNode 开始')
-      console.log('nodeid: ' + node.id + '|' + 'node_level: ' + node.level)  */
-
-      /* console.log('  ')
+      console.log('  ')
       console.log('loadNode 开始')
       console.log(node) 
       console.log('node_data: ' + JSON.stringify(node.data))
-      console.log('nodeid: ' + node.id + '|' + 'node_level: ' + node.level)  
+      console.log('nodeid: ' + node.id + '|' + 'node_level: ' + node.level) 
+      //console.log(this.$refs.tree)
       
-      const start = (new Date()).getTime() */
+      const start = (new Date()).getTime()
 
-      this.getData(node).then(r=>{
+      if (node.level === 0) {
+        return resolve([
+          {
+            id: 0,
+            label : '广告资源',
+            disabled: true,
+          }
+        ]);
+      }
+      const page_size = 10
 
-        // console.log('tree 结束  耗时: ' + ( (new Date()).getTime() - start ) + '毫秒')
-        resolve(r)
+
+      let params = {}
+      if(node.data){
+        params.p_type = node.data.type
+        params.p_id = node.data.id
+      }
+      
+      params.page_size = page_size
+      params.data_type = 'big'
+
+      let data = []
+
+      TreenodeApi.get(params).then((res) => {
+        if ( res.data ){
+          const _data = res.data
+          if ( _data.code === 0) {
+            console.log('tree 结束  耗时: ' + ( (new Date()).getTime() - start ) + '毫秒')
+            
+            data = _data.data.list
+
+            node.data.page_total = _data.data.page_total
+
+            node.data.childrenCount = _data.data.total
+            node.data.page_size= _data.data.page_size
+
+            node.data.label += ' '
+            node.data.label = node.data.label.substr(0,node.data.label.length-1)
+            /* console.log(_data.data.page_total)
+
+            node.data.page_total = _data.data.page_total
+            node.data.label += ' '
+            console.log(node.data)
+            node.setData(node.data) */
+            // node.data.page_total = _data.data.page_total
+            // console.log(node.render)
+            
+          } 
+        }
+        resolve(data)
       })
-
 
     }
   }

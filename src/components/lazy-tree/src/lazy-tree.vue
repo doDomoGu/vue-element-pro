@@ -3,240 +3,186 @@
     <el-tree
       ref='tree'
       :props="props"
-      @node-expand="onNodeExpand"
-      @node-click="onNodeClick"
-      @node-collapse="onNodeCollapse"
-      @check-change="onCheckChange" 
-      :show-checkbox="isShowCheckbox"
-      :empty-text='emptyText'
-      :current-node-key="currentNodeKey"
+      :load="loadNode"
+      :lazy=true
+      :show-checkbox="showCheckbox"
+      empty-text='没有资源'
+      :curren22t-node-key="100001"
       :node-key="nodeKey"
       :render-content="renderContent"
-      :expand-on-click-node="isExpandOnClickNode"
-      :data="treeData"
+      :default-expanded-keys="['root']"
+      :def2222ault-expand-all="true"
+      :expand-on-click-node="false"
       >
     </el-tree>
   </div>
 </template>
 
 <script>
-import * as TreenodeApi from '@/api/treenode'
 export default {
   name: 'LazyTree',
+  props: {
+    nodeKey: {
+      type: String,
+      default: 'id'
+    },
+    nodeData: Function,
+    nodeIconSrc: Function,
+    showCheckbox: Boolean,
+    props: {
+      default() {
+        return {
+          children: 'children', //子节点
+          label: 'label', 
+          disabled: 'disabled',
+          isLeaf: 'isLeaf',
+          total: 'total',
+          currentPage:'currentPage'
+        };
+      }
+    },
+    pageSize: {
+      type: Number,
+      default: 10
+    }
+  },
   data() {
     return {
-      isShowCheckbox: false,
-      emptyText: '没有资源',
-      currentNodeKey: 100,
-      nodeKey: 'id',
-      isExpandOnClickNode: false,
-      props: {
-        children: 'children',
-        label: 'label',
-        disabled: 'disabled',
-        isLeaf: 'isLeaf'
-      },
-      treeData:[],
-      pagination: {},
-    };
+      // pages:{}, //储存分页信息
+      // pagesOld:{}, //储存分页信息
+      checkedNodes: []
+    }
   },
   computed:{
   },
+  watch: {
+    /* pages:{
+      handler(val) {
+        let nodeId = null
+        for(let i in val){
+          if(nodeId != null){
+            continue
+          }
+          if(val[i] && this.pagesOld[i] && val[i] !== this.pagesOld[i]){
+            nodeId = i
+          }
+        }
+        if(nodeId != null){
+          const node = this.$refs.tree.getNode(nodeId)
+          this.nodeData(node).then(res=>{
+            console.log(res)
+            this.$refs.tree.updateKeyChildren(nodeId,res[this.props.children])
+            this.$set(this.pagesOld,nodeId,this.pages[nodeId])
+          })
+          
+        }
+      },
+      deep: true
+    }, */
+  },
   mounted(){
-    this.addChildren()
   },
   methods: {
-    addChildren(node){
-      console.log('  ')
-      console.log('addChildren 开始')
-      const start = (new Date()).getTime()
-
-      const page_size = 10
-      let params = {}
-      if(node && node.data){
-        params.p_type = node.data.type
-        params.p_id = node.data.id
-      }
-      params.page_size = page_size
-      params.data_type = 'big'
-
-      TreenodeApi.get(params).then((res) => {
-        if ( res.data ){
-          if ( res.data.code === 0) {
-            const _data = res.data.data
-            console.log(_data)
-            console.log('tree 结束  耗时: ' + ( (new Date()).getTime() - start ) + '毫秒')
-            
-            if(!node){
-              const tree = this.$refs.tree
-              const rootData = {
-                id: 'root',
-                label: '广告资源',
-                page_total: _data.page_total,
-                childrenCount: _data.total,
-                page_size: _data.page_size,
-              }
-              tree.append(rootData)
-              // const RootNode = tree.getNode('root')
-              // console.log(RootNode)
-              this.$refs.tree.updateKeyChildren('root', _data.list)
-            }else{
-              console.log(86)
-              this.$refs.tree.updateKeyChildren(node.id,_data.list)
-            }
-
-           /*  for(let i=0; i<_data.list.length;i++){
-              _data.list[i].
-            } */
-            // console.log(113)
-            // console.log(this.$refs)
+    //重写 标签项显示内容
+    renderContent(h, {node, data}){
+      // console.log(this.nodeKey)
+      let iconContent
+      let total
+      let pagination
+      // console.log(data)
+      if(data){
+        /* 渲染节点Icon */
+        if(this.nodeIconSrc){
+          const nodeIconSrc = this.nodeIconSrc(data)
+          if(nodeIconSrc){
+            iconContent =  <img class="el-tree-node__label-img" src={nodeIconSrc} />
           }
         }
-      })
-    },
-    onNodeClick(data, node, store){
-      console.log('')
-      console.log('onNodeClick')
-      console.log(data)
-      console.log(data[this.nodeKey])
-      console.log(node)
-      console.log(store)
-      //updateKeyChildren
-      
-    },
-    onNodeExpand(data, node, store){
-      console.log('')
-      console.log('onNodeExpand')
-      console.log(data)
-      console.log(data[this.nodeKey])
-      console.log(node)
-      console.log(store)
-    },
-    onNodeCollapse(data, node, store){
-      console.log('')
-      console.log('onNodeCollapse')
-      console.log(data)
-      console.log(data[this.nodeKey])
-      console.log(node)
-      console.log(store)
-    },
-    onCheckChange(){
-      console.log('onCheckChange')
-    },
-    renderContent(h, { node, data}){
-/*       console.log(' ')
-      console.log('renderContent 开始')
-      console.log(h)
-      console.log(node)
-      console.log(JSON.stringify(data)) */
-      /* 图标 */
-      const iconList = {
-        'C':'campaign',
-        'O':'order',
-        'S':'solution',
-        'B':'banner'
-      }
-      let icon
-      if(data && iconList[data.type]){
-        const iconSrc = require('@/assets/icon/' + iconList[data.type] +'-icon.png')
-        icon = iconSrc ? <img class="el-tree-node__label-img" src={iconSrc} /> : ''
-      }
-
-      /* 分页 */
-      let pagination 
-      let childrenCount
-      if(data && data.childrenCount!=undefined){
-        childrenCount = ' ('+data.childrenCount+')'
-        if(data.page_total>1 && node.expanded){
-          pagination = <el-pagination 
+        /* 增加子节点总数显示 */
+        if(data.hasOwnProperty([this.props.total])){
+          total = '('+parseInt(data[this.props.total])+')'
+        }
+        /* 分页组件，大于一页且节点被展开时显示 */
+        if(data[this.props.total] > this.pageSize && node.expanded){
+          pagination = <el-pagination
             small
-            ref={'page_'+node.id}
             layout="prev, pager, next"
-            page-size={data.page_size}
-            total={data.childrenCount}
-            on-current-change={this.s}
+            page-size={this.pageSize}
+            total={data[this.props.total]}
+            current-page={data[this.props.currentPage]}
+            {...{on:{'update:currentPage': val =>  { 
+              data[this.props.currentPage] = val
+              this.nodeData(node).then(res=>{
+                this.$refs.tree.updateKeyChildren(data.id,res[this.props.children])
+              })
+            }}}}
             pager-count={5}>
           </el-pagination>
+          /* 分页的currentPage改变，同步到pages，用于重新获取子节点数据 */
+          // this.$set(this.pages,data.id,data[this.props.currentPage])
+          // if(!this.pagesOld.hasOwnProperty(data.id)){
+          //   this.$set(this.pagesOld,data.id,data[this.props.currentPage])
+          // }
         }
       }
-      // console.log('renderContent 结束')
 
       return <span class="el-tree-node__label">
-      <span>{ icon }{ node.label } {childrenCount} </span> 
-      {pagination}
+        <span>{ iconContent }{ node.label } { total } </span> 
+        { pagination }
       </span>
     },
-    s(page,a,b){
-      console.log(page)
-      console.log(a)
-      console.log(b)
-    },
-    checkNodes(){
-
-      this.node_checked = this.$refs.tree.getCheckedKeys();
-    },
-    
-    loadNode2(node, resolve) {
-      console.log('  ')
-      console.log('loadNode')
-      console.log('tree 开始' )
-
-      
-      console.log(node) 
-      console.log('node_data: ' + JSON.stringify(node.data))
-      console.log('node_id: ' + node.id) 
-      console.log('node_level: ' + node.level) 
-      //console.log(this.$refs.tree)
-      
-      const start = (new Date()).getTime()
-
-      if (node.level === 0) {
-        return resolve([
-          {
-            id: 0,
-            label : '广告资源',
-            disabled: true
-          }
-        ]);
-      }
-
-      let params = {}
-      if(node.data){
-        params.type = node.data.type
-        params.p_id = node.data.id
-      }
-      
-
-      params.data_type = 'middle'
-
-      this.$store.dispatch('treenode/Get',params).then(()=>{
+    loadNode(node, resolve) {
+      this.nodeData(node).then(res=> {
+        // console.log(res)
+        if (node.level === 0) {
+          return resolve([
+            {
+              [this.nodeKey]: 'root',
+              [this.props.label] : '广告资源',
+              [this.props.disabled]: true,
+              // [this.props.pageTotal]: res[this.props.pageTotal],
+              //[this.props.currentPage]: res[this.props.currentPage],
+              [this.props.total]: res[this.props.total],
+              // page_size: _data.page_size,
+            }
+          ]);
+        }
         
-
-        console.log('tree 结束  耗时: ' + ( (new Date()).getTime() - start ) + '毫秒')
-
-      
-        return resolve(this.$store.getters['treenode/data'])
-        //this.$refs.tree.updateKeyChildren(0,this.$store.getters['treenode/data'])
-        
+        if (node.level > 1) {
+          // node.data[this.props.pageTotal] = res[this.props.pageTotal]
+          /* if(!node.data){
+            node.data[this.props.currentPage] = res[this.props.currentPage]
+            node.data[this.props.total] = res[this.props.total]
+          } */
+          
+            
+          // node.data.total_page = res.total_page
+          // node.data.childrenCount = res.total
+          // // node.data.page_size= res.page_size
+          // node.data.current_page= res.current_page
+        }
+        // console.log(res[this.props.children])
+        resolve(res[this.props.children])
       })
     }
   }
 }
 </script>
-
 <style scoped>
+/* 图标上下对齐 */
 .el-tree >>> .el-tree-node__label-img {
-  vertical-align:middle;
+  vertical-align:middle;  
 }
-
+/* 鼠标手势 */
 .el-tree >>> .el-tree-node__content {
   cursor: default;
 }
-
+/* 文字颜色和对齐 */
 .el-tree >>> .el-tree-node__label {
   color: #333;
+  line-height:22px;
 }
-
+/* 分页行内显示 */
 .el-tree >>> .el-pagination {
   display: inline-block;
 }

@@ -1,8 +1,20 @@
 <template>
   <div>
+    <!-- <section>
+      资源类型 
+      <el-select v-model="resourceTypeValue" placeholder="请选择" >
+        <el-option v-for="item in resourceTypeOptions" :key="item.value" :label="item.label" :value="item.value" >
+        </el-option>
+      </el-select>
+    </section> -->
+    <!-- <section>
+      选择的节点：{{node_checked}}
+    </section> -->
     <lazy-tree 
-      :render-content="renderContent" 
-      :load-node="loadNode"
+      :node-data="nodeData"
+      :show-checkbox="showCheckbox"
+      :node-icon-src="nodeIconSrc"
+      :page-size="pageSize"
     />
   </div>
 </template>
@@ -18,127 +30,61 @@ export default {
   },
   data() {
     return {
-      resourceTypeOptions: [
-        { value: 'C', label: '活动' },
-        { value: 'O', label: '订单' },
-        { value: 'S', label: '投放' },
-        { value: 'B', label: '创意' }
-      ],
-      resourceTypeValue: 'C'
+      // resourceTypeOptions: [
+      //   { value: 'C', label: '活动' },
+      //   { value: 'O', label: '订单' },
+      //   { value: 'S', label: '投放' },
+      //   { value: 'B', label: '创意' }
+      // ],
+      // resourceTypeValue: 'C',
+      pageSize: 10, //每页显示数
+      showCheckbox: true,
     };
-  },
-  computed:{
   },
   mounted(){
   },
   methods: {
-    //label 增加图标字样
-    renderContent(h, { node, data}){
-      console.log(' ')
-      console.log('renderContent 开始')
-      console.log(h)
-      console.log(node)
-      console.log(JSON.stringify(data))
-      const iconList = {
-        'C':'campaign',
-        'O':'order',
-        'S':'solution',
-        'B':'banner'
-      }
-      let icon
-      if(data && iconList[data.type]){
-        const iconSrc = require('@/assets/icon/' + iconList[data.type] +'-icon.png')
-        icon = iconSrc ? <img class="el-tree-node__label-img" src={iconSrc} /> : ''
-      }
-      let pagination 
-      let childrenCount
-      if(data && data.childrenCount!=undefined){
-        childrenCount = ' ('+data.childrenCount+')'
-        if(data.page_total>1){
-          pagination = <el-pagination
-            small
-            layout="prev, pager, next"
-            page-size={data.page_size}
-            total={data.childrenCount}
-            on-current-change = {this.s}
-            pager-count={5}>
-          </el-pagination>
-        }
-      }
-      console.log('renderContent 结束')
-      return <span class="el-tree-node__label">
-      <span>{ icon }{ node.label } {childrenCount} </span> 
-      {pagination}
-      </span>
-    },
-    s(a,b,c){
-      console.log(this)
-      console.log(a)
-      console.log(b)
-      console.log(c)
-    },
-    loadNode(node, resolve) {
-      console.log('  ')
-      console.log('loadNode 开始')
-      console.log(node) 
-      console.log('node_data: ' + JSON.stringify(node.data))
-      console.log('nodeid: ' + node.id + '|' + 'node_level: ' + node.level) 
-      //console.log(this.$refs.tree)
-      
-      const start = (new Date()).getTime()
-
-      if (node.level === 0) {
-        return resolve([
-          {
-            id: 0,
-            label : '广告资源',
-            disabled: true,
-          }
-        ]);
-      }
-      const page_size = 10
-
-
+    nodeData(node){
       let params = {}
       if(node.data){
-        params.p_type = node.data.type
-        params.p_id = node.data.id
+        if(node.data.type){
+          params.p_type = node.data.type
+          params.p_id = node.data.id
+        }
+        params.page = node.data.currentPage
       }
       
-      params.page_size = page_size
+      params.page_size = this.pageSize
+      
       params.data_type = 'big'
 
-      let data = []
-
-      TreenodeApi.get(params).then((res) => {
-        if ( res.data ){
-          const _data = res.data
-          if ( _data.code === 0) {
-            console.log('tree 结束  耗时: ' + ( (new Date()).getTime() - start ) + '毫秒')
-            
-            data = _data.data.list
-
-            node.data.page_total = _data.data.page_total
-
-            node.data.childrenCount = _data.data.total
-            node.data.page_size= _data.data.page_size
-
-            node.data.label += ' '
-            node.data.label = node.data.label.substr(0,node.data.label.length-1)
-            /* console.log(_data.data.page_total)
-
-            node.data.page_total = _data.data.page_total
-            node.data.label += ' '
-            console.log(node.data)
-            node.setData(node.data) */
-            // node.data.page_total = _data.data.page_total
-            // console.log(node.render)
-            
-          } 
-        }
-        resolve(data)
+      return new Promise( resolve => {
+        TreenodeApi.get(params).then( res => {
+          if ( res.data ){
+            if (res.data.code === 0) {
+            const _data = res.data.data  
+              return resolve(_data)
+            } 
+          }
+          // return resolve(data)
+        })
       })
-
+    },
+    nodeIconSrc(data){
+      let iconSrc
+      if(data.type){
+        /* 增加icon显示 */
+        const iconMap = {
+          'C':'campaign',
+          'O':'order',
+          'S':'solution',
+          'B':'banner'
+        }
+        if(iconMap[data.type]){
+          iconSrc = require('@/assets/icon/' + iconMap[data.type] +'-icon.png')
+        }
+      }
+      return iconSrc
     }
   }
 }
