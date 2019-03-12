@@ -6,7 +6,11 @@
         <el-option v-for="p in pageSizeOptions" :key="p.value" :label="p.label" :value="p.value" >
         </el-option>
       </el-select>
+
+      当前点击的节点： {{this.nodeClicked}}
     </section>
+    <br/>
+    <br/>
     <!-- <section>
       资源类型 
       <el-select v-model="resourceTypeValue" placeholder="请选择" >
@@ -18,11 +22,12 @@
       选择的节点：{{node_checked}}
     </section> -->
     <lazy-tree 
+      ref='lazy-tree' 
       :node-data="nodeData"
       :node-icon-src="nodeIconSrc"
       :page-size="pageSize"
       :default-expanded-keys="defaultExpandedKeys"
-      :show-checkbox="showCheckbox"
+      :node-click="nodeClick"
     />
   </div>
 </template>
@@ -48,7 +53,6 @@ export default {
       
       pageSize: 10, //每页显示数
       defaultExpandedKeys: ['root'],
-      showCheckbox: true,
 
       pageSizeOptions: [{
         value: 10,
@@ -60,7 +64,8 @@ export default {
         value: 30,
         label: '30'
       }],
-      
+      nodeClicked: {}
+    
     };
   },
   mounted(){
@@ -77,7 +82,7 @@ export default {
           params.page = node.data.currentPage
         }
         params.page_size = this.pageSize
-        params.data_type = 'big'
+        params.data_type = 'small'
         TreenodeApi.get(params).then( res => {
           if ( res.data && res.data.code === 0){
             resolve(res.data.data)
@@ -95,10 +100,16 @@ export default {
       }
       return iconSrc
     },
+    nodeClick(data, node, t){
+      this.nodeClicked = data
+    },
     reloadTree(){
-
+      const tree = this.$refs['lazy-tree'].$refs['tree']
+      const rootNode = tree.getNode('root')
+      this.nodeData(rootNode).then(res=>{
+        tree.updateKeyChildren('root',res)
+      })
     }
-    
   }
 }
 </script>

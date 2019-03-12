@@ -6,18 +6,15 @@
       :load="loadNode"
       :lazy=true
       :show-checkbox="showCheckbox"
-      empty-text='没有资源'
-      :curren22t-node-key="100001"
+      :empty-text='emptyText'
       :node-key="nodeKey"
       :render-content="renderContent"
-      :default-expanded-keys="['root']"
-      :def2222ault-expand-all="true"
-      :expand-on-click-node="false"
+      :default-expanded-keys="defaultExpandedKeys"
+      @node-click="nodeClick"
       >
     </el-tree>
   </div>
 </template>
-
 <script>
 export default {
   name: 'LazyTree',
@@ -28,8 +25,18 @@ export default {
     },
     nodeData: Function,
     nodeIconSrc: Function,
-    showCheckbox: Boolean,
+    nodeClick: Function,
+    showCheckbox: {
+      type: Boolean,
+      default: false
+    },
+    defaultExpandedKeys: Array,
+    emptyText: {
+      type: String,
+      default: '没有资源'
+    },
     props: {
+      type: Object,
       default() {
         return {
           children: 'children', 
@@ -54,11 +61,9 @@ export default {
   methods: {
     //重写 标签项显示内容
     renderContent(h, {node, data}){
-      // console.log(this.nodeKey)
       let iconContent
       let total
       let pagination
-      // console.log(data)
       if(data){
         /* 渲染节点Icon */
         if(this.nodeIconSrc){
@@ -79,7 +84,10 @@ export default {
             page-size={this.pageSize}
             total={data[this.props.total]}
             current-page={data[this.props.currentPage]}
-            {...{on:{'current-change': val =>  { 
+            {...{on:{'current-change': val =>  {
+              if (!e) var e = window.event;
+              if (e.stopPropagation) e.stopPropagation()
+              // currentPage改变，获取子节点数据更新到当前节点
               data[this.props.currentPage] = val
               this.nodeData(node).then(res=>{
                 this.$refs.tree.updateKeyChildren(data.id,res)
@@ -87,52 +95,18 @@ export default {
             }}}}
             pager-count={5}>
           </el-pagination>
-          /* 分页的currentPage改变，同步到pages，用于重新获取子节点数据 */
-          // this.$set(this.pages,data.id,data[this.props.currentPage])
-          // if(!this.pagesOld.hasOwnProperty(data.id)){
-          //   this.$set(this.pagesOld,data.id,data[this.props.currentPage])
-          // }
         }
       }
 
-      return <span class="el-tree-node__label">
+      return <span><span class="el-tree-node__label">
         <span>{ iconContent }{ node.label } { total } </span> 
-        { pagination }
-      </span>
+        
+      </span>{ pagination }</span>
     },
     loadNode(node, resolve) {
+      if(!this.nodeData) throw new Error('[LazyTree] Function nodeData is not definded')
       this.nodeData(node).then(res=> {
         resolve(res)
-        // console.log(res)
-        /* if (node.level === 0) {
-          return resolve([
-            {
-              [this.nodeKey]: 'root',
-              [this.props.label] : '广告资源',
-              [this.props.disabled]: true,
-              // [this.props.pageTotal]: res[this.props.pageTotal],
-              [this.props.currentPage]: res[this.props.currentPage],
-              [this.props.total]: res[this.props.total],
-              // page_size: _data.page_size,
-            }
-          ]);
-        } */
-        
-        // if (node.level > 1) {
-          // node.data[this.props.pageTotal] = res[this.props.pageTotal]
-          /* if(!node.data){
-            node.data[this.props.currentPage] = res[this.props.currentPage]
-            node.data[this.props.total] = res[this.props.total]
-          } */
-          
-            
-          // node.data.total_page = res.total_page
-          // node.data.childrenCount = res.total
-          // // node.data.page_size= res.page_size
-          // node.data.current_page= res.current_page
-        // }
-        // console.log(res[this.props.children])
-        //resolve(res[this.props.children])
       })
     }
   }
@@ -154,6 +128,7 @@ export default {
 }
 /* 分页行内显示 */
 .el-tree >>> .el-pagination {
+  /* position: absolute; */
   display: inline-block;
 }
 </style>
