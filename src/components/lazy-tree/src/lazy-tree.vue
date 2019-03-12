@@ -32,7 +32,7 @@ export default {
     props: {
       default() {
         return {
-          children: 'children', //子节点
+          children: 'children', 
           label: 'label', 
           disabled: 'disabled',
           isLeaf: 'isLeaf',
@@ -48,39 +48,8 @@ export default {
   },
   data() {
     return {
-      // pages:{}, //储存分页信息
-      // pagesOld:{}, //储存分页信息
       checkedNodes: []
     }
-  },
-  computed:{
-  },
-  watch: {
-    /* pages:{
-      handler(val) {
-        let nodeId = null
-        for(let i in val){
-          if(nodeId != null){
-            continue
-          }
-          if(val[i] && this.pagesOld[i] && val[i] !== this.pagesOld[i]){
-            nodeId = i
-          }
-        }
-        if(nodeId != null){
-          const node = this.$refs.tree.getNode(nodeId)
-          this.nodeData(node).then(res=>{
-            console.log(res)
-            this.$refs.tree.updateKeyChildren(nodeId,res[this.props.children])
-            this.$set(this.pagesOld,nodeId,this.pages[nodeId])
-          })
-          
-        }
-      },
-      deep: true
-    }, */
-  },
-  mounted(){
   },
   methods: {
     //重写 标签项显示内容
@@ -110,10 +79,10 @@ export default {
             page-size={this.pageSize}
             total={data[this.props.total]}
             current-page={data[this.props.currentPage]}
-            {...{on:{'update:currentPage': val =>  { 
+            {...{on:{'current-change': val =>  { 
               data[this.props.currentPage] = val
               this.nodeData(node).then(res=>{
-                this.$refs.tree.updateKeyChildren(data.id,res[this.props.children])
+                this.$refs.tree.updateKeyChildren(data.id,res)
               })
             }}}}
             pager-count={5}>
@@ -133,22 +102,23 @@ export default {
     },
     loadNode(node, resolve) {
       this.nodeData(node).then(res=> {
+        resolve(res)
         // console.log(res)
-        if (node.level === 0) {
+        /* if (node.level === 0) {
           return resolve([
             {
               [this.nodeKey]: 'root',
               [this.props.label] : '广告资源',
               [this.props.disabled]: true,
               // [this.props.pageTotal]: res[this.props.pageTotal],
-              //[this.props.currentPage]: res[this.props.currentPage],
+              [this.props.currentPage]: res[this.props.currentPage],
               [this.props.total]: res[this.props.total],
               // page_size: _data.page_size,
             }
           ]);
-        }
+        } */
         
-        if (node.level > 1) {
+        // if (node.level > 1) {
           // node.data[this.props.pageTotal] = res[this.props.pageTotal]
           /* if(!node.data){
             node.data[this.props.currentPage] = res[this.props.currentPage]
@@ -160,9 +130,9 @@ export default {
           // node.data.childrenCount = res.total
           // // node.data.page_size= res.page_size
           // node.data.current_page= res.current_page
-        }
+        // }
         // console.log(res[this.props.children])
-        resolve(res[this.props.children])
+        //resolve(res[this.props.children])
       })
     }
   }

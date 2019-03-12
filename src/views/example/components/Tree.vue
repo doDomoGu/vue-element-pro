@@ -1,5 +1,12 @@
 <template>
   <div>
+    <section>
+      每页显示数
+      <el-select v-model="pageSize"  @change="reloadTree">
+        <el-option v-for="p in pageSizeOptions" :key="p.value" :label="p.label" :value="p.value" >
+        </el-option>
+      </el-select>
+    </section>
     <!-- <section>
       资源类型 
       <el-select v-model="resourceTypeValue" placeholder="请选择" >
@@ -12,9 +19,10 @@
     </section> -->
     <lazy-tree 
       :node-data="nodeData"
-      :show-checkbox="showCheckbox"
       :node-icon-src="nodeIconSrc"
       :page-size="pageSize"
+      :default-expanded-keys="defaultExpandedKeys"
+      :show-checkbox="showCheckbox"
     />
   </div>
 </template>
@@ -37,59 +45,60 @@ export default {
       //   { value: 'B', label: '创意' }
       // ],
       // resourceTypeValue: 'C',
+      
       pageSize: 10, //每页显示数
+      defaultExpandedKeys: ['root'],
       showCheckbox: true,
+
+      pageSizeOptions: [{
+        value: 10,
+        label: '10'
+      }, {
+        value: 20,
+        label: '20'
+      }, {
+        value: 30,
+        label: '30'
+      }],
+      
     };
   },
   mounted(){
   },
   methods: {
     nodeData(node){
-      let params = {}
-      if(node.data){
-        if(node.data.type){
-          params.p_type = node.data.type
-          params.p_id = node.data.id
-        }
-        params.page = node.data.currentPage
-      }
-      
-      params.page_size = this.pageSize
-      
-      params.data_type = 'big'
-
       return new Promise( resolve => {
-        TreenodeApi.get(params).then( res => {
-          if ( res.data ){
-            if (res.data.code === 0) {
-            const _data = res.data.data  
-              return resolve(_data)
-            } 
+        let params = {}
+        if(node.data){
+          if(node.data.type){
+            params.p_type = node.data.type
+            params.p_id = node.data.id
           }
-          // return resolve(data)
+          params.page = node.data.currentPage
+        }
+        params.page_size = this.pageSize
+        params.data_type = 'big'
+        TreenodeApi.get(params).then( res => {
+          if ( res.data && res.data.code === 0){
+            resolve(res.data.data)
+          }
         })
       })
     },
     nodeIconSrc(data){
       let iconSrc
       if(data.type){
-        /* 增加icon显示 */
-        const iconMap = {
-          'C':'campaign',
-          'O':'order',
-          'S':'solution',
-          'B':'banner'
-        }
+        const iconMap = { 'C':'campaign', 'O':'order', 'S':'solution', 'B':'banner'}
         if(iconMap[data.type]){
           iconSrc = require('@/assets/icon/' + iconMap[data.type] +'-icon.png')
         }
       }
       return iconSrc
+    },
+    reloadTree(){
+
     }
+    
   }
 }
 </script>
-
-<style scoped>
-
-</style>
