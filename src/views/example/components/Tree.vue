@@ -1,12 +1,18 @@
 <template>
   <div>
     <section>
-      每页显示数
+      每个节点下分页每页显示数
       <el-select v-model="pageSize"  @change="reloadTree">
-        <el-option v-for="p in pageSizeOptions" :key="p.value" :label="p.label" :value="p.value" >
+        <el-option v-for="ps in pageSizeOptions" :key="ps.value" :label="ps.label" :value="ps.value" >
         </el-option>
       </el-select>
-
+      &nbsp; &nbsp; &nbsp;
+      测试数据量
+      <el-select v-model="dataType"  @change="reloadTree">
+        <el-option v-for="dt in dataTypeOptions" :key="dt.value" :label="dt.label" :value="dt.value" >
+        </el-option>
+      </el-select>
+      <br/>
       当前点击的节点： {{this.nodeClicked}}
     </section>
     <br/>
@@ -54,16 +60,39 @@ export default {
       pageSize: 10, //每页显示数
       defaultExpandedKeys: ['root'],
 
-      pageSizeOptions: [{
-        value: 10,
-        label: '10'
-      }, {
-        value: 20,
-        label: '20'
-      }, {
-        value: 30,
-        label: '30'
-      }],
+      pageSizeOptions: [
+        {
+          value: 10,
+          label: '10'
+        }, 
+        {
+          value: 20,
+          label: '20'
+        }, 
+        {
+          value: 30,
+          label: '30'
+        }, 
+        {
+          value: 100,
+          label: '100'
+        }
+      ],
+      dataType: 'middle', //测试数据量类型
+      dataTypeOptions: [
+        {
+          value: 'small',
+          label: '小型'
+        }, 
+        {
+          value: 'middle',
+          label: '中型'
+        }, 
+        {
+          value: 'big',
+          label: '大型'
+        }
+      ],
       nodeClicked: {}
     
     };
@@ -82,7 +111,7 @@ export default {
           params.page = node.data.currentPage
         }
         params.page_size = this.pageSize
-        params.data_type = 'small'
+        params.data_type = this.dataType 
         TreenodeApi.get(params).then( res => {
           if ( res.data && res.data.code === 0){
             resolve(res.data.data)
@@ -101,14 +130,24 @@ export default {
       return iconSrc
     },
     nodeClick(data, node, t){
-      this.nodeClicked = data
+
+      this.nodeClicked = {
+        id: data.id,
+        label: data.label,
+        type: data.type
+      }
     },
     reloadTree(){
       const tree = this.$refs['lazy-tree'].$refs['tree']
-      const rootNode = tree.getNode('root')
+      this.nodeData(tree.root).then(res=>{
+        tree.root.setData(res)
+      })
+      
+      /* const rootNode = tree.getNode('root')
       this.nodeData(rootNode).then(res=>{
         tree.updateKeyChildren('root',res)
-      })
+        
+      }) */
     }
   }
 }
