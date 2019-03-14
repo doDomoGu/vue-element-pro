@@ -1,32 +1,24 @@
 <template>
   <div>
+    <el-form inline>
+      <el-form-item label="数据量">
+        <el-select v-model="dataType"  @change="reloadTree">
+          <el-option v-for="dt in dataTypeOptions" :key="dt.value" :label="dt.label" :value="dt.value" >
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="(子节点下的分页)每页显示数">
+        <el-select v-model="pageSize"  @change="reloadTree">
+            <el-option v-for="ps in pageSizeOptions" :key="ps.value" :label="ps.label" :value="ps.value" >
+            </el-option>
+          </el-select>
+      </el-form-item>
+    </el-form>
     <section>
-      每个节点下分页每页显示数
-      <el-select v-model="pageSize"  @change="reloadTree">
-        <el-option v-for="ps in pageSizeOptions" :key="ps.value" :label="ps.label" :value="ps.value" >
-        </el-option>
-      </el-select>
-      &nbsp; &nbsp; &nbsp;
-      测试数据量
-      <el-select v-model="dataType"  @change="reloadTree">
-        <el-option v-for="dt in dataTypeOptions" :key="dt.value" :label="dt.label" :value="dt.value" >
-        </el-option>
-      </el-select>
-      <br/>
       当前点击的节点： {{this.nodeClicked}}
     </section>
     <br/>
     <br/>
-    <!-- <section>
-      资源类型 
-      <el-select v-model="resourceTypeValue" placeholder="请选择" >
-        <el-option v-for="item in resourceTypeOptions" :key="item.value" :label="item.label" :value="item.value" >
-        </el-option>
-      </el-select>
-    </section> -->
-    <!-- <section>
-      选择的节点：{{node_checked}}
-    </section> -->
     <lazy-tree 
       ref='lazy-tree' 
       :node-data="nodeData"

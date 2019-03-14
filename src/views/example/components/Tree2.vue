@@ -1,150 +1,159 @@
 <template>
   <div>
-    <lazy-tree 
-      :render-content="renderContent" 
-      :load-node="loadNode"
-    />
+    <el-form label-width="200px">
+      <el-form-item label="数据量">
+        <el-select v-model="dataType"  @change="reloadTree">
+          <el-option v-for="dt in dataTypeOptions" :key="dt.value" :label="dt.label" :value="dt.value" >
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="(子节点下的分页)每页显示数">
+        <el-select v-model="pageSize"  @change="reloadTree">
+          <el-option v-for="ps in pageSizeOptions" :key="ps.value" :label="ps.label" :value="ps.value" >
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="搜索词">
+        <el-input v-model="searchText"  @input="reloadTree" style="width:100px"/>
+      </el-form-item>
+      <el-form-item label="叶子节点资源类型">
+        <el-select v-model="leafType"  @change="reloadTree">
+          <el-option v-for="lt in leafTypeOptions" :key="lt.value" :label="lt.label" :value="lt.value" >
+          </el-option>
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <section>
+      当前点击的节点： {{this.nodeClicked}}
+    </section>
+    <br/>
+    <br/>
+    <section>
+      <lazy-tree 
+        ref='lazy-tree' 
+        :node-data="nodeData"
+        :node-icon-src="nodeIconSrc"
+        :page-size="pageSize"
+        :default-expanded-keys="defaultExpandedKeys"
+        :node-click="nodeClick"
+      />
+    </section>
   </div>
-  
 </template>
 
 <script>
-import LazyTree from '@/components/lazy-tree/index2.js';
+import LazyTree from '@/components/lazy-tree/index.js';
 import * as TreenodeApi from '@/api/treenode'
 
 export default {
-  name: 'com_tree2',
+  name: 'com_tree',
   components: {
       LazyTree
   },
   data() {
     return {
-      resourceTypeOptions: [
+      leafTypeOptions: [
         { value: 'C', label: '活动' },
         { value: 'O', label: '订单' },
         { value: 'S', label: '投放' },
         { value: 'B', label: '创意' }
       ],
-      resourceTypeValue: 'C'
+      leafType: 'C',
+      searchText: '',
+      pageSize: 10, //每页显示数
+      defaultExpandedKeys: ['root'],
+
+      pageSizeOptions: [
+        {
+          value: 10,
+          label: '10'
+        }, 
+        {
+          value: 20,
+          label: '20'
+        }, 
+        {
+          value: 30,
+          label: '30'
+        }, 
+        {
+          value: 100,
+          label: '100'
+        }
+      ],
+      dataType: 'middle', //测试数据量类型
+      dataTypeOptions: [
+        {
+          value: 'small',
+          label: '小型'
+        }, 
+        {
+          value: 'middle',
+          label: '中型'
+        }, 
+        {
+          value: 'big',
+          label: '大型'
+        }
+      ],
+      nodeClicked: {}
+    
     };
-  },
-  computed:{
   },
   mounted(){
   },
   methods: {
-    //label 增加图标字样
-    renderContent(h, { node, data}){
-      console.log(' ')
-      console.log('renderContent 开始')
-      console.log(h)
-      console.log(node)
-      console.log(JSON.stringify(data))
-      const iconList = {
-        'C':'campaign',
-        'O':'order',
-        'S':'solution',
-        'B':'banner'
-      }
-      let icon
-      if(data && iconList[data.type]){
-        const iconSrc = require('@/assets/icon/' + iconList[data.type] +'-icon.png')
-        icon = iconSrc ? <img class="el-tree-node__label-img" src={iconSrc} /> : ''
-      }
-      let pagination 
-      let childrenCount
-      if(data && data.childrenCount!=undefined){
-        childrenCount = ' ('+data.childrenCount+')'
-        if(data.page_total>1){
-          pagination = <el-pagination
-            small
-            layout="prev, pager, next"
-            page-size={data.page_size}
-            total={data.childrenCount}
-            on-current-change = {this.s}
-            pager-count={5}>
-          </el-pagination>
-        }
-      }
-      console.log('renderContent 结束')
-      return <span class="el-tree-node__label">
-      <span>{ icon }{ node.label } {childrenCount} </span> 
-      {pagination}
-      </span>
-    },
-    s(a,b,c){
-      console.log(this)
-      console.log(a)
-      console.log(b)
-      console.log(c)
-    },
-    loadNode(node, resolve) {
-      console.log('  ')
-      console.log('loadNode 开始')
-      console.log(node) 
-      console.log('node_data: ' + JSON.stringify(node.data))
-      console.log('nodeid: ' + node.id + '|' + 'node_level: ' + node.level) 
-      //console.log(this.$refs.tree)
-      
-      const start = (new Date()).getTime()
-
-      if (node.level === 0) {
-        return resolve([
-          {
-            id: 0,
-            label : '广告资源',
-            disabled: true,
+    nodeData(node){
+      return new Promise( resolve => {
+        let params = {}
+        if(node.data){
+          if(node.data.type){
+            params.p_type = node.data.type
+            params.p_id = node.data.id
           }
-        ]);
-      }
-      const page_size = 10
-
-
-      let params = {}
-      if(node.data){
-        params.p_type = node.data.type
-        params.p_id = node.data.id
-      }
-      
-      params.page_size = page_size
-      params.data_type = 'big'
-
-      let data = []
-
-      TreenodeApi.get(params).then((res) => {
-        if ( res.data ){
-          const _data = res.data
-          if ( _data.code === 0) {
-            console.log('tree 结束  耗时: ' + ( (new Date()).getTime() - start ) + '毫秒')
-            
-            data = _data.data.list
-
-            node.data.page_total = _data.data.page_total
-
-            node.data.childrenCount = _data.data.total
-            node.data.page_size= _data.data.page_size
-
-            node.data.label += ' '
-            node.data.label = node.data.label.substr(0,node.data.label.length-1)
-            /* console.log(_data.data.page_total)
-
-            node.data.page_total = _data.data.page_total
-            node.data.label += ' '
-            console.log(node.data)
-            node.setData(node.data) */
-            // node.data.page_total = _data.data.page_total
-            // console.log(node.render)
-            
-          } 
+          params.page = node.data.currentPage
         }
-        resolve(data)
+        params.search_text  = this.searchText
+        params.leaf_type  = this.leafType
+        params.page_size    = this.pageSize
+        params.data_type    = this.dataType 
+        TreenodeApi.get(params).then( res => {
+          if ( res.data && res.data.code === 0){
+            resolve(res.data.data)
+          }
+        })
       })
+    },
+    nodeIconSrc(data){
+      let iconSrc
+      if(data.type){
+        const iconMap = { 'C':'campaign', 'O':'order', 'S':'solution', 'B':'banner'}
+        if(iconMap[data.type]){
+          iconSrc = require('@/assets/icon/' + iconMap[data.type] +'-icon.png')
+        }
+      }
+      return iconSrc
+    },
+    nodeClick(data, node, t){
 
+      this.nodeClicked = {
+        id: data.id,
+        label: data.label,
+        type: data.type
+      }
+    },
+    reloadTree(){
+      const tree = this.$refs['lazy-tree'].$refs['tree']
+      this.nodeData(tree.root).then(res=>{
+        tree.root.setData(res)
+      })
+      
+      /* const rootNode = tree.getNode('root')
+      this.nodeData(rootNode).then(res=>{
+        tree.updateKeyChildren('root',res)
+        
+      }) */
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>
