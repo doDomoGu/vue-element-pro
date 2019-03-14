@@ -78,7 +78,10 @@ export default {
         }
         /* 分页组件，大于一页且节点被展开时显示 */
         if(data[this.props.total] > this.pageSize && node.expanded){
-          pagination = <el-pagination
+          pagination = <div class={['el-pagination-wrapper']}
+          {...{on:{'click': e =>  {e.stopPropagation()}}}}
+          >
+          <el-pagination
             small
             layout="prev, pager, next"
             page-size={this.pageSize}
@@ -95,6 +98,7 @@ export default {
             }}}}
             pager-count={5}>
           </el-pagination>
+          </div>
         }
       }
 
@@ -127,7 +131,7 @@ export default {
   line-height:22px;
 }
 /* 分页行内显示 */
-.el-tree >>> .el-pagination {
+.el-tree >>> .el-pagination-wrapper {
   /* position: absolute; */
   display: inline-block;
 }
