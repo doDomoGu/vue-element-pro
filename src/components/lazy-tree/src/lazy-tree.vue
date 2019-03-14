@@ -116,23 +116,41 @@ export default {
   }
 }
 </script>
-<style scoped>
-/* 图标上下对齐 */
-.el-tree >>> .el-tree-node__label-img {
-  vertical-align:middle;  
-}
-/* 鼠标手势 */
-.el-tree >>> .el-tree-node__content {
-  cursor: default;
-}
-/* 文字颜色和对齐 */
-.el-tree >>> .el-tree-node__label {
-  color: #333;
-  line-height:22px;
-}
-/* 分页行内显示 */
-.el-tree >>> .el-pagination-wrapper {
-  /* position: absolute; */
-  display: inline-block;
-}
+<style scoped lang="scss">
+.el-tree {
+  /deep/ { //深度选择器
+    /* 图标上下对齐 */
+    .el-tree-node__label-img {
+      vertical-align:middle;  
+    }
+
+    /* 鼠标手势 */
+    .el-tree-node__content {
+      /* cursor: default; */
+    }
+
+    /* 文字颜色和对齐 */
+    .el-tree-node__label {
+      color: #333;
+      line-height:22px;
+    }
+
+    /* 分页行内显示 */
+    .el-pagination-wrapper {
+      /* position: absolute; */
+      display: inline-block;
+    }
+
+    /* 分页背景色 */
+    .el-pager li {
+      background-color:unset;
+    }
+    
+    /* 分页按钮背景色 */
+    .el-pagination button {
+      background-color:unset;
+    }
+  }
+} 
+
 </style>
