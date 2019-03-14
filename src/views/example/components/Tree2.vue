@@ -1,11 +1,14 @@
 <template>
   <div>
     <el-form label-width="200px">
-      <el-form-item label="数据量">
+      <el-form-item label="数据量(测试用)">
         <el-select v-model="dataType"  @change="reloadTree">
           <el-option v-for="dt in dataTypeOptions" :key="dt.value" :label="dt.label" :value="dt.value" >
           </el-option>
         </el-select>
+        <span class='hint'>
+          * 只影响接口数据查询，非前端数据过滤
+        </span>
       </el-form-item>
       <el-form-item label="(子节点下的分页)每页显示数">
         <el-select v-model="pageSize"  @change="reloadTree">
@@ -13,14 +16,26 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="搜索词">
-        <el-input v-model="searchText"  @input="reloadTree" style="width:100px"/>
+      <el-form-item label="在Tree内显示搜索">
+        <el-switch
+          v-model="showSearchText"
+          >
+        </el-switch>
+      </el-form-item>
+      <el-form-item label="搜索词" >
+        <el-input :disabled="showSearchText" v-model="searchText"  @input="reloadTree" style="width:100px"/>
+        <span class='hint'>
+          * 只影响接口数据查询，非前端数据过滤
+        </span>
       </el-form-item>
       <el-form-item label="叶子节点资源类型">
         <el-select v-model="leafType"  @change="reloadTree">
           <el-option v-for="lt in leafTypeOptions" :key="lt.value" :label="lt.label" :value="lt.value" >
           </el-option>
         </el-select>
+        <span class='hint'>
+          * 只影响接口数据查询，非前端数据过滤
+        </span>
       </el-form-item>
     </el-form>
     <section>
@@ -36,6 +51,9 @@
         :page-size="pageSize"
         :default-expanded-keys="defaultExpandedKeys"
         :node-click="nodeClick"
+        :show-search-text="showSearchText"
+        :search-text="searchText"
+        @search-text-change="searchTextChange"
       />
     </section>
   </div>
@@ -58,8 +76,9 @@ export default {
         { value: 'S', label: '投放' },
         { value: 'B', label: '创意' }
       ],
-      leafType: 'C',
+      leafType: 'B',
       searchText: '',
+      showSearchText: true,
       pageSize: 10, //每页显示数
       defaultExpandedKeys: ['root'],
 
@@ -101,6 +120,9 @@ export default {
     };
   },
   mounted(){
+    this.$on('search-text-change', val=> {
+      console.log(val)
+    })
   },
   methods: {
     nodeData(node){
@@ -147,13 +169,18 @@ export default {
       this.nodeData(tree.root).then(res=>{
         tree.root.setData(res)
       })
-      
-      /* const rootNode = tree.getNode('root')
-      this.nodeData(rootNode).then(res=>{
-        tree.updateKeyChildren('root',res)
-        
-      }) */
+    },
+    searchTextChange(val){
+      this.searchText = val
+      this.reloadTree()
     }
   }
 }
 </script>
+<style scoped>
+.hint {
+  color:#999;
+  margin-left: 20px;
+  display: inline-block;
+}
+</style>

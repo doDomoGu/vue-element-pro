@@ -1,5 +1,8 @@
 <template>
   <div>
+    <section v-if="showSearchText">
+      <el-input :value="searchText" @input="searchTextChange" />
+    </section>
     <el-tree
       ref='tree'
       :props="props"
@@ -30,11 +33,16 @@ export default {
       type: Boolean,
       default: false
     },
+    showSearchText: {
+      type: Boolean,
+      default: false
+    },
     defaultExpandedKeys: Array,
     emptyText: {
       type: String,
       default: '没有资源'
     },
+    searchText: String,
     props: {
       type: Object,
       default() {
@@ -112,6 +120,9 @@ export default {
       this.nodeData(node).then(res=> {
         resolve(res)
       })
+    },
+    searchTextChange(val){
+      this.$emit('search-text-change', val, this)
     }
   }
 }

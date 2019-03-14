@@ -210,7 +210,7 @@ export default [
             path: 'tree2',
             component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/components/Tree2'),
             name: 'com_tree2',
-            meta: { title: '树形结构2' },
+            meta: { title: '树形结构(懒加载/大数据量)' },
           },
         ]
       }
