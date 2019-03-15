@@ -1,7 +1,15 @@
 <template>
   <div>
-    <section v-if="showSearchText">
-      <el-input :value="searchText" @input="searchTextChange" />
+    <section :class="['lazytree-header']" v-if="showSearchText">
+      <el-input 
+        :class="['lazytree-header__search-text']" 
+        v-if="showSearchText" 
+        :value="searchText" 
+        @input="searchTextChange" 
+        size="mini" 
+      >
+        <el-button slot="append" icon="el-icon-search"></el-button>
+      </el-input>
     </section>
     <el-tree
       ref='tree'
@@ -164,4 +172,26 @@ export default {
   }
 } 
 
+.lazytree-header {
+  padding: 4px;
+  background:#fff;
+  border-bottom: 1px solid #ccc;
+  
+  .lazytree-header__search-text  {
+    width: 200px;
+
+    /deep/ {
+      input {
+        border-radius: 0;
+        height: 24px;
+        line-height: 24px;
+        padding: 4px;
+      }
+      .el-input-group__append {
+        padding: 0 4px;
+        border-radius: 0;
+      }
+    }
+  }
+}
 </style>
