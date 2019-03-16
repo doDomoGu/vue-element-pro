@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="lazy-tree">
     <section :class="['lazytree-header']" v-if="showSearchText">
       <el-input 
         :class="['lazytree-header__search-text']" 
@@ -104,8 +104,6 @@ export default {
             total={data[this.props.total]}
             current-page={data[this.props.currentPage]}
             {...{on:{'current-change': val =>  {
-              if (!e) var e = window.event;
-              if (e.stopPropagation) e.stopPropagation()
               // currentPage改变，获取子节点数据更新到当前节点
               data[this.props.currentPage] = val
               this.nodeData(node).then(res=>{
@@ -173,7 +171,7 @@ export default {
 } 
 
 .lazytree-header {
-  padding: 4px;
+  padding: 6px;
   background:#fff;
   border-bottom: 1px solid #ccc;
   
