@@ -22,6 +22,7 @@
       :render-content="renderContent"
       :default-expanded-keys="defaultExpandedKeys"
       @node-click="nodeClick"
+      :filter-node-method='filterNodeMethod'
       >
     </el-tree>
   </div>
@@ -51,6 +52,8 @@ export default {
       default: '没有资源'
     },
     searchText: String,
+    filterText: String,
+    filterNodeMethod: Function,
     props: {
       type: Object,
       default() {
@@ -72,6 +75,11 @@ export default {
   data() {
     return {
       checkedNodes: []
+    }
+  },
+  watch: {
+    filterText(val) {
+      this.$refs.tree.filter(val);
     }
   },
   methods: {
