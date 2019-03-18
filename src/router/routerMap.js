@@ -212,6 +212,12 @@ export default [
             name: 'com_tree2',
             meta: { title: '树形结构(懒加载/大数据量)' },
           },
+          {
+            path: 'tree-transfer',
+            component: () => import(/* webpackChunkName: "routePage" */ '@/views/example/components/TreeTransfer'),
+            name: 'com_tree_transfer',
+            meta: { title: '树形结构的穿梭框' },
+          },
         ]
       }
     ]
