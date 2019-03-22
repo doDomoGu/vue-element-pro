@@ -7,6 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "storybook": "start-storybook -p 6006",
+    "storybookv": "start-storybook -V",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
@@ -21,10 +22,18 @@
     "vuex": "^3.1.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@storybook/addon-actions": "^5.0.3",
+    "@storybook/addon-links": "^5.0.3",
+    "@storybook/addons": "^5.0.3",
+    "@storybook/vue": "^5.0.3",
     "@vue/cli-plugin-babel": "^3.3.0",
     "@vue/cli-plugin-eslint": "^3.3.0",
-    "@vue/cli-service": "^3.3.0",
+    "@vue/cli-service": "^3.5.1",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.5",
+    "babel-preset-vue": "^2.0.2",
     "element-theme-chalk": "^2.4.11",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
@@ -34,13 +43,6 @@
     "vue-cli-plugin-element": "^1.0.1",
     "vue-loader": "^15.6.2",
     "vue-markdown-loader": "^2.4.1",
-    "vue-template-compiler": "^2.6.8",
-    "@storybook/vue": "^5.0.3",
-    "@storybook/addon-actions": "^5.0.3",
-    "@storybook/addon-links": "^5.0.3",
-    "@storybook/addons": "^5.0.3",
-    "babel-preset-vue": "^2.0.2",
-    "@babel/core": "^7.4.0",
-    "babel-loader": "^8.0.5"
+    "vue-template-compiler": "^2.6.8"
   }
 }
