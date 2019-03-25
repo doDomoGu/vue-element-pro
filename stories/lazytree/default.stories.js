@@ -3,9 +3,16 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
 import LazyTree from '@/components/lazy-tree';
+import Exception401 from '@/components/exception/401';
 // import * as TreenodeApi from '@/api/treenode'
 
 storiesOf('Lazytree', module)
+  .add('x',()=>({
+    components: { Exception401 },
+    render(h) {
+      return <div><exception401 /></div>;
+    },
+  }))
   .add('Default', () => ({
     components: { LazyTree },
     data() {
