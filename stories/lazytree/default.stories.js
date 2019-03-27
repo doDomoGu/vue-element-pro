@@ -2,17 +2,21 @@ import { storiesOf } from '@storybook/vue';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
+import Vue from 'vue'
+
+import '@/config/element-variables.scss'
+import Element from 'element-ui'
+Vue.use(Element)
+
+import Storage from 'vue-ls';
+import { STORAGE_OPTIONS } from '@/config/constantVariables'
+Vue.use(Storage, STORAGE_OPTIONS);
+
 import LazyTree from '@/components/lazy-tree';
-import Exception401 from '@/components/exception/401';
-// import * as TreenodeApi from '@/api/treenode'
+
+import * as TreenodeApi from '@/api/treenode'
 
 storiesOf('Lazytree', module)
-  .add('x',()=>({
-    components: { Exception401 },
-    render(h) {
-      return <div><exception401 /></div>;
-    },
-  }))
   .add('Default', () => ({
     components: { LazyTree },
     data() {
@@ -24,36 +28,36 @@ storiesOf('Lazytree', module)
       };
     },
     render(h) {
-      return <div><lazy-tree 
+      return <lazy-tree 
       ref='lazy-tree' 
       node-data={this.nodeData}
       node-icon-src={this.nodeIconSrc}
       page-size={this.pageSize}
       default-expanded-keys={this.defaultExpandedKeys}
       node-click={this.nodeClick}
-    /></div>;
+    />;
     },
     methods: { 
       nodeData(node){
-        return []
+        // return []
 
-        // return new Promise( resolve => {
-        //   let params = {}
-        //   if(node.data){
-        //     if(node.data.type){
-        //       params.p_type = node.data.type
-        //       params.p_id = node.data.id
-        //     }
-        //     params.page = node.data.currentPage
-        //   }
-        //   params.page_size = this.pageSize
-        //   params.data_type = this.dataType 
-        //   TreenodeApi.get(params).then( res => {
-        //     if ( res.data && res.data.code === 0){
-        //       resolve(res.data.data)
-        //     }
-        //   })
-        // })
+        return new Promise( resolve => {
+          let params = {}
+          if(node.data){
+            if(node.data.type){
+              params.p_type = node.data.type
+              params.p_id = node.data.id
+            }
+            params.page = node.data.currentPage
+          }
+          params.page_size = this.pageSize
+          params.data_type = this.dataType 
+          TreenodeApi.get(params).then( res => {
+            if ( res.data && res.data.code === 0){
+              resolve(res.data.data)
+            }
+          })
+        })
       },
       nodeIconSrc(data){
         return null
