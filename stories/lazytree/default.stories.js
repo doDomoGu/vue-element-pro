@@ -2,15 +2,7 @@ import { storiesOf } from '@storybook/vue';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
-import Vue from 'vue'
 
-import '@/config/element-variables.scss'
-import Element from 'element-ui'
-Vue.use(Element)
-
-import Storage from 'vue-ls';
-import { STORAGE_OPTIONS } from '@/config/constantVariables'
-Vue.use(Storage, STORAGE_OPTIONS);
 
 import LazyTree from '@/components/lazy-tree';
 
