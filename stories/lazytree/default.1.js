@@ -14,13 +14,20 @@ storiesOf('Lazytree', module)
       };
     },
     render(h) {
+
+      const nodeClick = (a,b,c) => {
+        console.log(a)
+        console.log(b)
+        console.log(c)
+      }
+
       return <lazy-tree 
       ref='lazy-tree' 
       node-data={this.nodeData}
       node-icon-src={this.nodeIconSrc}
       page-size={this.pageSize}
       default-expanded-keys={this.defaultExpandedKeys}
-      node-click={this.nodeClick}
+      on-node-click={nodeClick}
     />;
     },
     methods: { 
@@ -53,13 +60,13 @@ storiesOf('Lazytree', module)
         }
         return iconSrc
       },
-      nodeClick(data, node, t){
-        this.nodeClicked = {
-          id: data.id,
-          label: data.label,
-          type: data.type
-        }
-      },
+      // nodeClick(data, node, t){
+      //   this.nodeClicked = {
+      //     id: data.id,
+      //     label: data.label,
+      //     type: data.type
+      //   }
+      // },
       reloadTree(){
         const tree = this.$refs['lazy-tree'].$refs['tree']
         this.nodeData(tree.root).then(res=>{

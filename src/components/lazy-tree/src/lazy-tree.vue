@@ -37,7 +37,6 @@ export default {
     },
     nodeData: Function,
     nodeIconSrc: Function,
-    nodeClick: Function,
     showCheckbox: {
       type: Boolean,
       default: false
@@ -74,13 +73,18 @@ export default {
   },
   data() {
     return {
-      checkedNodes: []
+      checkedNodes: [],
+      i : false
     }
   },
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val);
     }
+  },
+  mounted(){
+    // console.log(this.$refs.tree)
+    //this.$refs.tree.addEventListener('node-click', this.nodeClick);
   },
   methods: {
     //重写 标签项显示内容
@@ -137,6 +141,9 @@ export default {
     },
     searchTextChange(val){
       this.$emit('search-text-change', val, this)
+    },
+    nodeClick(data, node, t){
+      this.$emit('node-click', data, node, t);
     }
   }
 }
