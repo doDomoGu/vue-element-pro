@@ -9,14 +9,29 @@ import { STORAGE_OPTIONS } from '@/config/constantVariables'
 Vue.use(Storage, STORAGE_OPTIONS);
 
 import { configure } from '@storybook/vue';
+// import { addParameters } from '@storybook/vue';
+// import { create } from '@storybook/theming';
+// // Option defaults:
+// addParameters({
+//   options: {
+//     theme: create({
+//       base: 'light',
+//       brandTitle: 'Storybook',
+//       brandUrl: 'https://storybook.js.org',
+//       // To control appearance:
+//       // brandImage: 'http://url.of/some.svg',
+//     }),
+//     isFullScreen: false
+//   },
+// });
 
 // automatically import all files ending in *.stories.js
 // const req = require.context('../stories', true, /.stories.js$/);
-const req = require.context('../stories', true, /index.stories.js$/);
-// console.log(req)
-// console.log(req.keys())
-function loadStories() {
-  req.keys().forEach(filename => req(filename));
-}
+// const req = require.context('../stories', true, /index.stories.js$/);
+// function loadStories() {
+//   req.keys().forEach(filename => req(filename));
+// }
 
-configure(loadStories, module);
+// configure(loadStories, module);
+
+configure(() => require('../stories/index.stories.js'), module);
