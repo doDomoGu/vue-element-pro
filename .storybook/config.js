@@ -9,14 +9,14 @@ import { STORAGE_OPTIONS } from '@/config/constantVariables'
 Vue.use(Storage, STORAGE_OPTIONS);
 
 import { configure } from '@storybook/vue';
-import { addParameters } from '@storybook/vue'; // <- or your storybook framework
+/* import { addParameters } from '@storybook/vue'; // <- or your storybook framework
 
 addParameters({
   backgrounds: [
     { name: 'twitter', value: '#00aced', default: true },
     { name: 'facebook', value: '#3b5998' },
   ],
-});
+}); */
 
 
 // import { addParameters } from '@storybook/vue';
