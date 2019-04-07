@@ -3,7 +3,7 @@ import LazyTree from '@/components/lazy-tree';
 import * as TreenodeApi from '@/api/treenode'
 
 storiesOf('Lazytree', module)
-  .add('Default', () => ({
+  .add('Default.1', () => ({
     components: { LazyTree },
     data() {
       return {
