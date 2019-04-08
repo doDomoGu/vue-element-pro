@@ -18,6 +18,12 @@ storiesOf('Lazytree', module)
       };
     },
     render(h) {
+      /* const nodeClick = (a,b,c) => {
+        console.log(a)
+        console.log(b)
+        console.log(c)
+      } */
+
       return <lazy-tree 
       ref='lazy-tree' 
       node-data={this.nodeData}

@@ -1,2 +1,2 @@
 require('./lazytree/default')
-require('./lazytree/default.1')
+require('./lazytree/config-with-pageSize')
