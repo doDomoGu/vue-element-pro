@@ -48,8 +48,8 @@ axios.interceptors.request.use(
 //Mock 拦截请求打印response
 if(process.env.VUE_APP_MOCK_ENABLE == 'TRUE'){
   axios.interceptors.response.use((res) => {
-    /* console.log(' axios response')
-    console.log(res.data) */
+    // console.log(' axios response')
+    // console.log(res.data)
     return res
   }, (error) => {
     // console.log('网络异常')
