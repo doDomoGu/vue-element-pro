@@ -1,5 +1,5 @@
 <template>
-  <div class="lazy-tree">
+  <div class="lazy-tree" ref='lazyTree'>
     <section :class="['lazytree-header']" v-if="showSearchText">
       <el-input 
         :class="['lazytree-header__search-text']" 
@@ -46,6 +46,10 @@ export default {
       default: false
     },
     defaultExpandedKeys: Array,
+    expandTopLevel: {
+      type: Boolean,
+      default: false
+    },
     emptyText: {
       type: String,
       default: '没有资源'
@@ -62,8 +66,9 @@ export default {
           disabled: 'disabled',
           isLeaf: 'isLeaf',
           total: 'total',
-          currentPage:'currentPage'
-        };
+          currentPage:'currentPage',
+          id : 'id'
+        }
       }
     },
     pageSize: {
@@ -73,18 +78,13 @@ export default {
   },
   data() {
     return {
-      checkedNodes: [],
-      i : false
+      checkedNodes: []
     }
   },
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val);
     }
-  },
-  mounted(){
-    // console.log(this.$refs.tree)
-    //this.$refs.tree.addEventListener('node-click', this.nodeClick);
   },
   methods: {
     //重写 标签项显示内容
@@ -136,6 +136,13 @@ export default {
     loadNode(node, resolve) {
       if(!this.nodeData) throw new Error('[LazyTree] Function nodeData is not definded')
       this.nodeData(node).then(res=> {
+        if(typeof this.defaultExpandedKeys == 'undefined' && typeof node.data == 'undefined' && this.expandTopLevel){
+          let defalutExpandedKeys = []
+          for(let i = 0; i < res.length; i++){
+            defalutExpandedKeys.push(res[i][this.props['id']])
+          }
+          this.$refs.tree.store.setDefaultExpandedKeys(defalutExpandedKeys)
+        }
         resolve(res)
       })
     },
