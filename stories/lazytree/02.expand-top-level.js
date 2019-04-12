@@ -11,7 +11,7 @@ storiesOf('Lazytree (Element-ui Extensioin)', module)
     components: { LazyTree },
     props: {
       //使用props定义一个可被knobs修改的expandTopLevel
-      expandTopLevel : {
+      expandTopLevel :{
         default: boolean('是否展开顶级节点', true)
       }
     },

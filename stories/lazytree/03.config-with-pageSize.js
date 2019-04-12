@@ -9,11 +9,6 @@ storiesOf('Lazytree (Element-ui Extensioin)', module)
   .addDecorator(withKnobs) //加载knob插件
   .add('config with pageSize', () => ({
     components: { LazyTree },
-    data() {
-      return {
-        defaultExpandedKeys: ['root']
-      }
-    },
     props: {
       //使用props定义一个可被knobs修改的pageSize
       pageSize : {
@@ -33,7 +28,7 @@ storiesOf('Lazytree (Element-ui Extensioin)', module)
       return <lazy-tree 
       ref='lazyTree' 
       node-data={this.nodeData} 
-      default-expanded-keys={this.defaultExpandedKeys}
+      expand-top-level={true}
       page-size={this.pageSize}
       />;
     },
