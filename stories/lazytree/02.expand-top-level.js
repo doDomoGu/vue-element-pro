@@ -4,6 +4,7 @@ import { withKnobs, boolean } from '@storybook/addon-knobs'; //storybook knobs�
 import LazyTree from '@/components/lazy-tree'; //lazy-tree组件
 
 import getTreenodeData from './treenode' // 获得节点数据的方法
+import { action } from '@storybook/addon-actions';
 
 storiesOf('Lazytree (Element-ui Extensioin)', module)
   .addDecorator(withKnobs) //加载knob插件
@@ -13,6 +14,13 @@ storiesOf('Lazytree (Element-ui Extensioin)', module)
       //使用props定义一个可被knobs修改的expandTopLevel
       expandTopLevel :{
         default: boolean('是否展开顶级节点', true)
+      },
+      onNodeClick: (data, node, t)=>{
+        action('sss2')
+        action(node)
+        console.log(data)
+        console.log(node)
+        console.log(t)
       }
     },
     watch: {
@@ -40,11 +48,19 @@ storiesOf('Lazytree (Element-ui Extensioin)', module)
         ref='lazyTree' 
         node-data={this.nodeData}
         expand-top-level={this.expandTopLevel}
+        on-node-click={this.nodeClick}
       />
     },
     methods: {
       nodeData(node){
         return getTreenodeData(node, {})
+      },
+      nodeClick(data, node, t){
+        action('sss')
+        action(node)
+        console.log(data)
+        console.log(node)
+        console.log(t)
       }
     }
   }))
